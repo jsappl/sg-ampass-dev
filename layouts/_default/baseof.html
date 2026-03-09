@@ -80,7 +80,7 @@
       <nav class="navbar container" aria-label="Main navigation">
 
         <!-- Logo — $logo already fetched above, reuse here -->
-        <a href="{{ "/" | relURL }}" class="logo-link" aria-label="{{ .Site.Title }} – Home">
+        <a href="{{ .Site.BaseURL }}" class="logo-link" aria-label="{{ .Site.Title }} – Home">
           {{ if $logo }}
           <img
             src="{{ $logo.RelPermalink }}"
