@@ -1,0 +1,45 @@
+{{ define "main" }}
+<section class="container">
+  <h1 class="section-title">{{ .Title }}</h1>
+
+  <div class="news-grid">
+    {{ range .Paginator.Pages }}
+    <article class="news-card">
+      {{/* Page bundle image: resolve via .Resources, not raw .Params.image
+      string */}} {{ $img := .Resources.GetMatch .Params.image }} {{ if $img }}
+      <div
+        class="news-image"
+        style="background-image: url('{{ $img.RelPermalink }}');"
+      ></div>
+      {{ else }}
+      <div class="news-image placeholder"></div>
+      {{ end }}
+      <div class="news-content">
+        <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
+        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        <p>{{ .Summary | plainify | truncate 150 }}</p>
+        <a href="{{ .RelPermalink }}" class="read-more">Weiterlesen →</a>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+
+  {{ if gt .Paginator.TotalPages 1 }}
+  <nav class="pagination" aria-label="Seitennavigation">
+    {{ if .Paginator.HasPrev }}
+    <a href="{{ .Paginator.Prev.URL }}" class="pagination-link">← Neuere</a>
+    {{ end }}
+    <span class="pagination-info">
+      Seite {{ .Paginator.PageNumber }} von {{ .Paginator.TotalPages }}
+    </span>
+    {{ if .Paginator.HasNext }}
+    <a href="{{ .Paginator.Next.URL }}" class="pagination-link">Ältere →</a>
+    {{ end }}
+  </nav>
+  {{ end }}
+
+  <div class="section-cta">
+    <a href="/" class="btn btn-primary">← Zurück zur Startseite</a>
+  </div>
+</section>
+{{ end }}

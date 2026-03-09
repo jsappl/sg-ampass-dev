@@ -1,0 +1,179 @@
+/* =========================================
+   3. HEADER & NAVIGATION
+   ========================================= */
+.main-header {
+    background-color: var(--bg-color);
+    border-bottom: 2px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.nav-logo {
+    height: 50px;
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover { transform: scale(1.05); }
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--hover-color); }
+
+.nav-social a {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--primary);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.theme-toggle:hover { color: var(--accent); }
+
+.sun-icon, .moon-icon { font-size: 1.2rem; width: 1.2rem; text-align: center; }
+.sun-icon  { display: none; }
+[data-theme="light"] .sun-icon  { display: block; }
+[data-theme="light"] .moon-icon { display: none; }
+
+
+/* =========================================
+   4. HERO & SECTIONS
+   ========================================= */
+.hero-section {
+    height: 70vh;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url('/img/hero-bg.jpg') no-repeat center center / cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 4px solid var(--primary);
+}
+
+/* Hero always over dark overlay — white is correct in both modes */
+.hero-section h1 {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    color: #ffffff;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    /* Red glow ties hero to logo palette without hurting readability */
+    text-shadow: 0 0 50px rgba(196, 30, 30, 0.5);
+}
+
+.hero-section .hero-subtitle {
+    color: rgba(255,255,255,0.85);
+    font-size: clamp(1rem, 3vw, 1.3rem);
+}
+
+.section-title {
+    text-align: center;
+    color: var(--section-title);
+    margin: 50px 0 40px 0;
+}
+
+
+/* =========================================
+   9. MOBILE NAVIGATION
+   ========================================= */
+input#nav-toggle.nav-toggle {
+    display: none !important;
+}
+
+.nav-toggle-label {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .nav-toggle-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-toggle-label span,
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        display: block;
+        background: var(--primary);
+        width: 26px;
+        height: 2px;
+        border-radius: 2px;
+        position: relative;
+        transition: transform 0.3s, background 0.3s;
+    }
+    .nav-toggle-label span::before,
+    .nav-toggle-label span::after {
+        content: "";
+        position: absolute;
+        left: 0;
+    }
+    .nav-toggle-label span::before { top: -8px; }
+    .nav-toggle-label span::after  { top:  8px; }
+
+    .nav-links {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: var(--nav-bg);
+        flex-direction: column;
+        padding-top: 50px;
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+        gap: 10px;
+        font-size: 1.1rem;
+    }
+
+    .nav-toggle:checked ~ .nav-links { transform: translateX(0); }
+
+    .nav-toggle:checked ~ .nav-toggle-label span              { background: transparent; }
+    .nav-toggle:checked ~ .nav-toggle-label span::before      { transform: rotate(45deg);  top: 0; }
+    .nav-toggle:checked ~ .nav-toggle-label span::after       { transform: rotate(-45deg); top: 0; }
+}
+
+
+/* =========================================
+   15. NAV ACTIVE STATE
+   ========================================= */
+.nav-active {
+    color: var(--primary) !important;
+    border-bottom: 2px solid var(--primary);
+    padding-bottom: 2px;
+}

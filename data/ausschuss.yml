@@ -1,0 +1,20 @@
+# Committee members of Schützengilde Ampass.
+# photo: filename relative to assets/ — leave empty if no photo available.
+# email: email address — leave empty if no email available.
+# phone: phone number — leave empty if no phone number available.
+# Add/remove/reorder entries here — no template changes needed.
+
+- name: "Julia Steixner"
+  role: "Oberschützenmeisterin"
+  photo:
+  email:
+  phone:
+
+- name: "Sandra Steixner"
+  role: "Oberschützenmeisterin-Stellvertreterin und Schriftführerin"
+
+- name: "Thomas Lackner"
+  role: "Kassier"
+
+- name: "Christian Danzberger"
+  role: "Sportleiter"

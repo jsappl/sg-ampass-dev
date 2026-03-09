@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="de" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- ===================== SEO & Meta ===================== -->
+    <title>
+      {{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title
+      }}{{ end }}
+    </title>
+    <meta
+      name="description"
+      content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}"
+    />
+
+    <!-- Open Graph (social sharing) -->
+    <meta
+      property="og:title"
+      content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}"
+    />
+    <meta
+      property="og:description"
+      content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}"
+    />
+    <meta
+      property="og:type"
+      content="{{ if .IsHome }}website{{ else }}article{{ end }}"
+    />
+    <meta property="og:url" content="{{ .Permalink }}" />
+    {{ with .Site.Params.ogImage }}
+    <meta property="og:image" content="{{ . | absURL }}" />
+    {{ end }}
+
+    <!-- ===================== Theme Flash Fix ===================== -->
+    <!--
+      Runs synchronously before paint. Reads localStorage and applies
+      the saved theme to <html> immediately — prevents a flash of the
+      default dark theme when a user has light mode saved.
+      The fallback default is "dark" to match :root in style.css.
+    -->
+    <script>
+      (function () {
+        var theme = localStorage.getItem("theme") || "dark";
+        document.documentElement.setAttribute("data-theme", theme);
+        // Apply matching background instantly so no white/black flash occurs
+        document.documentElement.style.backgroundColor =
+          theme === "light" ? "#f5f4f2" : "#0a0a0a";
+      })();
+    </script>
+
+    <!-- ===================== Favicon ===================== -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- ===================== Preload critical assets ===================== -->
+    {{ $logo := resources.Get "sg-ampass-logo.webp" }} {{ if $logo }}
+    <link rel="preload" as="image" href="{{ $logo.RelPermalink }}" />
+    {{ end }}
+
+    <!-- ===================== Fonts & Icons ===================== -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- ===================== Styles ===================== -->
+    <!--
+      Hugo asset pipeline: get → minify → fingerprint → integrity hash.
+      The fingerprint ensures cache-busting on every change.
+    -->
+    {{- $variables := resources.Get "css/variables.css" -}} {{- $layout :=
+    resources.Get "css/layout.css" -}} {{- $components := resources.Get
+    "css/components.css" -}} {{- $pages := resources.Get "css/pages.css" -}} {{-
+    $all := slice $variables $layout $components $pages | resources.Concat
+    "css/style.css" | minify | fingerprint -}}
+    <link
+      rel="stylesheet"
+      href="{{ $all.RelPermalink }}"
+      integrity="{{ $all.Data.Integrity }}"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <!-- ===================== Header & Nav ===================== -->
+    <header class="main-header">
+      <nav class="navbar container" aria-label="Main navigation">
+        <!-- Logo — reuse the already-fetched $logo variable from <head> -->
+        <a href="/" class="logo-link" aria-label="{{ .Site.Title }} – Home">
+          {{ $logo := resources.Get "sg-ampass-logo.webp" }} {{ if $logo }}
+          <img
+            src="{{ $logo.RelPermalink }}"
+            alt="{{ .Site.Title }} Logo"
+            class="nav-logo"
+            width="180"
+            height="60"
+          />
+          {{ end }}
+        </a>
+
+        <!-- Mobile hamburger (CSS-only toggle, no JS required) -->
+        <input
+          type="checkbox"
+          id="nav-toggle"
+          class="nav-toggle"
+          aria-hidden="true"
+        />
+        <label
+          for="nav-toggle"
+          class="nav-toggle-label"
+          aria-label="Menu öffnen/schließen"
+        >
+          <span></span>
+        </label>
+
+        <!-- Nav links — sourced from [[menu.main]] in hugo.toml -->
+        <ul class="nav-links" role="list">
+          {{ $currentPage := . }} {{ range .Site.Menus.main }}
+          <li>
+            <a
+              href="{{ .URL }}"
+              {{
+              if
+              $currentPage.IsMenuCurrent
+              `main`
+              .
+              }}aria-current="page"
+              {{
+              end
+              }}
+              class="{{ if $currentPage.IsMenuCurrent `main` . }}nav-active{{ end }}"
+            >
+              {{ .Name }}
+            </a>
+          </li>
+          {{ end }}
+
+          <!-- Instagram -->
+          <li class="nav-social">
+            <a
+              href="{{ .Site.Params.instagramURL | default `https://www.instagram.com/schuetzengilde_ampass/` }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+            </a>
+          </li>
+
+          <!-- Theme toggle — must be inside <li> to keep valid HTML -->
+          <li>
+            <button
+              id="theme-toggle"
+              class="theme-toggle"
+              aria-label="Switch color theme"
+              title="Switch color theme"
+            >
+              <i class="fa-solid fa-moon moon-icon" aria-hidden="true"></i>
+              <i class="fa-solid fa-sun sun-icon" aria-hidden="true"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- ===================== Main Content ===================== -->
+    <main id="main-content">{{ block "main" . }}{{ end }}</main>
+
+    <!-- ===================== Footer ===================== -->
+    <footer>
+      <div class="container">
+        <div class="flex-row">
+          {{ with .Site.Params.email }}
+          <span class="contact-item">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <a href="mailto:{{ . }}">{{ . }}</a>
+          </span>
+          {{ end }} {{ with .Site.Params.instagramURL }}
+          <a
+            href="{{ . }}"
+            class="insta-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+          {{ end }}
+        </div>
+        <p>© {{ now.Format "2006" }} Schützengilde Ampass</p>
+        <p class="footer-legal">
+          <a href="/impressum">Impressum</a> ·
+          <a href="/datenschutz">Datenschutz</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- ===================== Theme Toggle Script ===================== -->
+    <script>
+      (function () {
+        var btn = document.getElementById("theme-toggle");
+        if (!btn) return;
+        btn.addEventListener("click", function () {
+          var current = document.documentElement.getAttribute("data-theme");
+          var next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          // Sync background immediately to avoid any flash on rapid toggling
+          document.documentElement.style.backgroundColor =
+            next === "light" ? "#f5f4f2" : "#0a0a0a";
+          localStorage.setItem("theme", next);
+        });
+      })();
+    </script>
+  </body>
+</html>

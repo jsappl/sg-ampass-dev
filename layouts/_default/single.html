@@ -1,0 +1,41 @@
+{{ define "main" }}
+<article class="single-post container">
+  <header class="post-header">
+    <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
+    <h1>{{ .Title }}</h1>
+    {{/* Page bundle image: resolve via .Resources, not raw .Params.image string
+    */}} {{ $img := .Resources.GetMatch .Params.image }} {{ if $img }}
+    <img
+      src="{{ $img.RelPermalink }}"
+      alt="{{ .Title }}"
+      class="featured-image"
+      width="{{ $img.Width }}"
+      height="{{ $img.Height }}"
+    />
+    {{ end }}
+  </header>
+
+  <div class="post-content">{{ .Content }}</div>
+
+  <footer class="post-footer">
+    {{/* Prev/next within the same section */}}
+    <nav class="post-nav" aria-label="Post navigation">
+      {{ with .PrevInSection }}
+      <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-prev">
+        <span class="nav-label">← Neuerer Beitrag</span>
+        <span class="nav-title">{{ .Title }}</span>
+      </a>
+      {{ end }} {{ with .NextInSection }}
+      <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-next">
+        <span class="nav-label">Älterer Beitrag →</span>
+        <span class="nav-title">{{ .Title }}</span>
+      </a>
+      {{ end }}
+    </nav>
+    {{/* Back to section list, not hardcoded "/" */}}
+    <a href="{{ .Parent.RelPermalink }}" class="btn btn-primary"
+      >← Zurück zur Übersicht</a
+    >
+  </footer>
+</article>
+{{ end }}

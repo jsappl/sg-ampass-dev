@@ -1,0 +1,18 @@
+# datetime combines date + time so Hugo can compare against now.
+# Format: RFC3339 (YYYY-MM-DDTHH:MM:SS)
+# Templates filter with: where .Site.Data.termine "datetime" "ge" (now.Format "2006-01-02T15:04:05")
+
+- datetime: "2026-03-15T19:00:00"
+  titel: "Frühjahrsschießen"
+  ort: "Schützenheim Ampass"
+  typ: "Sport"
+
+- datetime: "2026-04-10T18:30:00"
+  titel: "Jahreshauptversammlung"
+  ort: "Gemeindesaal"
+  typ: "Verein"
+
+- datetime: "2026-05-01T09:00:00"
+  titel: "Maifeier & Schützenfest"
+  ort: "Dorfplatz"
+  typ: "Tradition"

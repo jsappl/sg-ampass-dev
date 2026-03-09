@@ -1,0 +1,88 @@
+/* =========================================
+   1. VARIABLEN & THEMES
+   ========================================= */
+
+/*
+   Palette-Quelle: SG Ampass Logo
+   Farben aus dem Logo:
+     Schwarz  #0a0a0a  → Kirchturm-Silhouette, dominant
+     Rot      #c41e1e  → Zielscheiben-Ringe
+     Weiß     #ffffff  → Gebäude-Details
+
+   Strategie:
+   Dark mode:  Schwarz + Weiß + Rot als einziger Akzent
+   Light mode: Off-white + Fast-schwarz + Rot (leicht abgedunkelt für WCAG AA)
+   Beide Modes folgen derselben Logik — Rot übernimmt alle Akzent-Rollen
+   (primary, accent, highlight). Kein zweiter Akzent nötig.
+*/
+
+:root {
+    /* ── Dark Mode (Standard) ── */
+    --bg-color:        #0a0a0a;             /* Schwarz wie Logosilhouette */
+    --text-color:      #f0f0f0;
+    --card-bg:         #151515;             /* Warm dark grey — hebt sich von bg ab */
+    --card-border:     rgba(255,255,255,0.07);
+
+    --primary:         #c41e1e;             /* Logo-Rot */
+    --accent:          #e03030;             /* Etwas heller für Hover/Glow-Effekte */
+    --hover-color:     #e03030;             /* Nav hover: helleres Rot auf schwarz */
+    --section-title:   #f0f0f0;             /* Weiß auf schwarz — Rot wäre zu laut */
+
+    --footer-bg:       #000000;
+    --muted-text:      #888888;
+    --nav-bg:          rgba(10, 10, 10, 0.98);
+    --border-color:    rgba(255,255,255,0.07);
+    --img-placeholder: #1e1e1e;
+    --date-text:       #ffffff;
+}
+
+[data-theme="light"] {
+    /* ── Light Mode: Papier & Tinte ── */
+    --bg-color:        #f5f4f2;             /* Warmes off-white */
+    --text-color:      #0f0f0f;             /* Fast-schwarz wie Logosilhouette */
+    --card-bg:         #ffffff;
+    --card-border:     rgba(0,0,0,0.09);
+
+    /* Rot abgedunkelt bis WCAG AA (≥4.5:1 auf #f5f4f2) */
+    --primary:         #a81818;             /* Dunkelrot → 6.2:1 ✓ */
+    --accent:          #c41e1e;             /* Mittelrot für Hover */
+    --hover-color:     #a81818;             /* Rot funktioniert als Nav-Hover auf weiß */
+    --section-title:   #a81818;             /* Rot auf weiß = lesbar & markant */
+
+    --footer-bg:       #ece9e6;             /* Warmes hellgrau */
+    --muted-text:      #5a5856;             /* Warmes dunkelgrau */
+    --nav-bg:          rgba(245,244,242,0.98);
+    --border-color:    rgba(0,0,0,0.10);
+    --img-placeholder: #dbd8d5;
+    --date-text:       #ffffff;
+}
+
+
+/* =========================================
+   2. BASICS & LAYOUT
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+main { flex: 1; }
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}

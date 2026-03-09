@@ -1,0 +1,46 @@
+{{ define "main" }}
+<section class="ausschuss-page">
+  <div class="container">
+    <h1 class="section-title">{{ .Title }}</h1>
+
+    {{ with .Content }}
+    <div class="page-intro">{{ . }}</div>
+    {{ end }}
+
+    <div class="ausschuss-grid">
+      {{ range .Site.Data.ausschuss }}
+      <div class="ausschuss-card">
+        <div class="ausschuss-photo">
+          {{ if .photo }} {{ $img := resources.Get .photo }} {{ if $img }}
+          <img src="{{ $img.RelPermalink }}" alt="{{ .name }}" />
+          {{ end }} {{ else }}
+          <img
+            src="/avatar-placeholder.svg"
+            alt="{{ .name }}"
+            class="ausschuss-placeholder"
+          />
+          {{ end }}
+        </div>
+        <div class="ausschuss-info">
+          <strong class="ausschuss-name">{{ .name }}</strong>
+          <span class="ausschuss-role">{{ .role }}</span>
+          {{ with .email }}
+          <a href="mailto:{{ . }}" class="ausschuss-contact">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ . }}
+          </a>
+          {{ end }} {{ with .phone }}
+          <a href="tel:{{ . | replaceRE `\s` `` }}" class="ausschuss-contact">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i> {{ . }}
+          </a>
+          {{ end }}
+        </div>
+      </div>
+      {{ end }}
+    </div>
+
+    <div class="section-cta">
+      <a href="/" class="btn btn-primary">← Zurück zur Startseite</a>
+    </div>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,83 @@
+{{ define "main" }} {{/* ── Coordinates
+────────────────────────────────────────────────────────────── Verify at:
+https://www.openstreetmap.org/search?query=Römerstraße+21+Ampass Right-click the
+exact building → "Centre map here", then read lat/lon from the URL:
+https://www.openstreetmap.org/#map=18/LAT/LON Update the two values below — they
+drive both the iframe and the directions link.
+────────────────────────────────────────────────────────────────────────────
+*/}} {{ $lat := 47.262566 }} {{ $lon := 11.465714 }}
+
+<section class="kontakt-page">
+  <div class="container">
+    <h1 class="section-title">{{ .Title }}</h1>
+
+    <div class="kontakt-layout">
+      <!-- ── Contact details ── -->
+      <div class="kontakt-info">
+        <div class="kontakt-block">
+          <h2>Schützenlokal</h2>
+          <address>
+            {{ with .Site.Params.address }}
+            <p>
+              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              {{ . }}
+            </p>
+            {{ end }} {{ with .Site.Params.email }}
+            <p>
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              <a href="mailto:{{ . }}">{{ . }}</a>
+            </p>
+            {{ end }} {{ with .Site.Params.instagramURL }}
+            <p>
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+              <a href="{{ . }}" target="_blank" rel="noopener noreferrer">
+                @schuetzengilde_ampass
+              </a>
+            </p>
+            {{ end }}
+          </address>
+        </div>
+
+        <div class="kontakt-block">
+          <h2>Anfahrt</h2>
+          <p>
+            Das Schützenlokal befindet sich im Gemeindezentrum Ampass.
+            Parkplätze stehen westlich des Gebäudes zur Verfügung. Der Eingang
+            befindet sich auf der Nordseite und ist über die Treppe nach unten
+            erreichbar.
+          </p>
+          <a
+            href="https://www.openstreetmap.org/directions?to={{ $lat }},{{ $lon }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary kontakt-directions-btn"
+          >
+            <i class="fa-solid fa-route" aria-hidden="true"></i>
+            Route berechnen
+          </a>
+        </div>
+      </div>
+
+      <!-- ── OpenStreetMap iframe ── -->
+      <div class="kontakt-map-wrap">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox={{ sub $lon 0.005 }},{{ sub $lat 0.003 }},{{ add $lon 0.005 }},{{ add $lat 0.003 }}&layer=mapnik&marker={{ $lat }},{{ $lon }}"
+          class="kontakt-map"
+          title="Standort Schützenlokal Ampass"
+          loading="lazy"
+          referrerpolicy="no-referrer"
+        ></iframe>
+        <a
+          href="https://www.openstreetmap.org/way/168889175"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="kontakt-map-link"
+        >
+          Gebäude auf OpenStreetMap anzeigen ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ end }}

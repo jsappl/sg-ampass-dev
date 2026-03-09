@@ -1,0 +1,17 @@
+# Partner und Vereine der Schützengilde Ampass.
+# Add/remove entries here — no template changes needed.
+
+- name: "Bezirksschützenbund Innsbruck"
+  url: "https://www.bsbi.at/"
+  icon: "fa-solid fa-bullseye"
+  description: "Unser Sportverband"
+
+- name: "Gemeinde Ampass"
+  url: "https://www.ampass.gv.at/"
+  icon: "fa-solid fa-landmark"
+  description: "Unsere Heimatgemeinde"
+
+- name: "Schützenkompanie Ampass"
+  url: "https://www.tiroler-schuetzen.at/btsk-gliederung/btsk/viertel-tirol-mitte/bezirk-hall/sk-ampass/"
+  icon: "fa-solid fa-shield-halved"
+  description: "Unsere Hausgenossen im Schützenlokal"

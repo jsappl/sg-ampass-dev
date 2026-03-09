@@ -1,0 +1,114 @@
+{{ define "main" }}
+<section class="termin-page-full">
+  <div class="container">
+    <h1 class="section-title">{{ .Title }}</h1>
+
+    {{ with .Content }}
+    <div class="page-intro">{{ . }}</div>
+    {{ end }} {{/* Only upcoming events — past ones are filtered out */}} {{
+    $now := now.Format "2006-01-02T15:04:05" }} {{ $upcoming := where
+    .Site.Data.termine "datetime" "ge" $now }} {{ $sorted := sort $upcoming
+    "datetime" "asc" }} {{ if $sorted }}
+    <div class="termin-liste-full">
+      {{ range $sorted }}
+      <div class="termin-item-full">
+        <div class="termin-date-box">
+          <span class="day">{{ dateFormat "02" .datetime }}</span>
+          <span class="month"
+            >{{ index (slice "" "Jän" "Feb" "Mär" "Apr" "Mai" "Jun" "Jul" "Aug"
+            "Sep" "Okt" "Nov" "Dez") (dateFormat "1" .datetime | int) }}</span
+          >
+        </div>
+        <div class="termin-details">
+          <h3>{{ .titel }}</h3>
+          <div class="meta-info">
+            <span>
+              <i class="fa-solid fa-clock" aria-hidden="true"></i>
+              {{ dateFormat "15:04" .datetime }} Uhr
+            </span>
+            <span>
+              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              {{ .ort }}
+            </span>
+          </div>
+        </div>
+        <div class="termin-actions">
+          <div class="termin-type-badge termin-type-{{ .typ | lower }}">
+            {{ .typ }}
+          </div>
+          <button
+            class="ics-download-btn"
+            aria-label="{{ .titel }} als Kalendereintrag herunterladen"
+            data-datetime="{{ .datetime }}"
+            data-titel="{{ .titel }}"
+            data-ort="{{ .ort }}"
+            data-typ="{{ .typ }}"
+          >
+            <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p class="no-events">Aktuell keine bevorstehenden Termine.</p>
+    {{ end }}
+
+    <div class="section-cta">
+      <a href="/" class="btn btn-primary">← Zurück zur Startseite</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".ics-download-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var datetime = btn.dataset.datetime; // "2026-03-15T19:00:00"
+      var titel = btn.dataset.titel;
+      var ort = btn.dataset.ort;
+      var typ = btn.dataset.typ;
+
+      // Format "2026-03-15T19:00:00" → "20260315T190000"
+      var dt = datetime.replace(/-/g, "").replace(/:/g, "");
+
+      // End time = start + 2 hours, keeping local time (no UTC conversion)
+      var parts = datetime.match(
+        /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/,
+      );
+      // Add 2h to hour component manually to avoid UTC timezone issues
+      var endHour = String(parseInt(parts[4], 10) + 2).padStart(2, "0");
+      var dtEnd =
+        parts[1] + parts[2] + parts[3] + "T" + endHour + parts[5] + parts[6];
+
+      var uid = dt + "@sg-ampass.at";
+
+      var ics = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Schützengilde Ampass//Termine//DE",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "BEGIN:VEVENT",
+        "UID:" + uid,
+        "DTSTART:" + dt,
+        "DTEND:" + dtEnd,
+        "SUMMARY:" + titel,
+        "LOCATION:" + ort,
+        "CATEGORIES:" + typ,
+        "END:VEVENT",
+        "END:VCALENDAR",
+      ].join("\r\n");
+
+      var blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = titel.replace(/\s+/g, "-").toLowerCase() + ".ics";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  });
+</script>
+{{ end }}
