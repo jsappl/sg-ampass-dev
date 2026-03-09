@@ -6,28 +6,15 @@
 
     <!-- ===================== SEO & Meta ===================== -->
     <title>
-      {{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title
-      }}{{ end }}
+      {{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}
     </title>
-    <meta
-      name="description"
-      content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}"
-    />
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}" />
 
     <!-- Open Graph (social sharing) -->
-    <meta
-      property="og:title"
-      content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}"
-    />
-    <meta
-      property="og:description"
-      content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}"
-    />
-    <meta
-      property="og:type"
-      content="{{ if .IsHome }}website{{ else }}article{{ end }}"
-    />
-    <meta property="og:url" content="{{ .Permalink }}" />
+    <meta property="og:title"       content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}" />
+    <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}" />
+    <meta property="og:type"        content="{{ if .IsHome }}website{{ else }}article{{ end }}" />
+    <meta property="og:url"         content="{{ .Permalink }}" />
     {{ with .Site.Params.ogImage }}
     <meta property="og:image" content="{{ . | absURL }}" />
     {{ end }}
@@ -50,13 +37,14 @@
     </script>
 
     <!-- ===================== Favicon ===================== -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon"             href="{{ "favicon.ico"          | absURL }}" sizes="any" />
+    <link rel="icon"             href="{{ "favicon.svg"          | absURL }}" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | absURL }}" />
+    <link rel="manifest"         href="{{ "site.webmanifest"     | absURL }}" />
 
     <!-- ===================== Preload critical assets ===================== -->
-    {{ $logo := resources.Get "sg-ampass-logo.webp" }} {{ if $logo }}
+    {{- $logo := resources.Get "sg-ampass-logo.webp" -}}
+    {{ if $logo }}
     <link rel="preload" as="image" href="{{ $logo.RelPermalink }}" />
     {{ end }}
 
@@ -69,14 +57,14 @@
 
     <!-- ===================== Styles ===================== -->
     <!--
-      Hugo asset pipeline: get → minify → fingerprint → integrity hash.
-      The fingerprint ensures cache-busting on every change.
+      Hugo asset pipeline: concat → minify → fingerprint → integrity hash.
+      Split source files in assets/css/ — single output for the browser.
     -->
-    {{- $variables := resources.Get "css/variables.css" -}} {{- $layout :=
-    resources.Get "css/layout.css" -}} {{- $components := resources.Get
-    "css/components.css" -}} {{- $pages := resources.Get "css/pages.css" -}} {{-
-    $all := slice $variables $layout $components $pages | resources.Concat
-    "css/style.css" | minify | fingerprint -}}
+    {{- $variables  := resources.Get "css/variables.css"  -}}
+    {{- $layout     := resources.Get "css/layout.css"     -}}
+    {{- $components := resources.Get "css/components.css" -}}
+    {{- $pages      := resources.Get "css/pages.css"      -}}
+    {{- $all := slice $variables $layout $components $pages | resources.Concat "css/style.css" | minify | fingerprint -}}
     <link
       rel="stylesheet"
       href="{{ $all.RelPermalink }}"
@@ -86,12 +74,14 @@
   </head>
 
   <body>
+
     <!-- ===================== Header & Nav ===================== -->
     <header class="main-header">
       <nav class="navbar container" aria-label="Main navigation">
-        <!-- Logo — reuse the already-fetched $logo variable from <head> -->
-        <a href="/" class="logo-link" aria-label="{{ .Site.Title }} – Home">
-          {{ $logo := resources.Get "sg-ampass-logo.webp" }} {{ if $logo }}
+
+        <!-- Logo — $logo already fetched above, reuse here -->
+        <a href="{{ "/" | absURL }}" class="logo-link" aria-label="{{ .Site.Title }} – Home">
+          {{ if $logo }}
           <img
             src="{{ $logo.RelPermalink }}"
             alt="{{ .Site.Title }} Logo"
@@ -103,35 +93,19 @@
         </a>
 
         <!-- Mobile hamburger (CSS-only toggle, no JS required) -->
-        <input
-          type="checkbox"
-          id="nav-toggle"
-          class="nav-toggle"
-          aria-hidden="true"
-        />
-        <label
-          for="nav-toggle"
-          class="nav-toggle-label"
-          aria-label="Menu öffnen/schließen"
-        >
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
+        <label for="nav-toggle" class="nav-toggle-label" aria-label="Menu öffnen/schließen">
           <span></span>
         </label>
 
         <!-- Nav links — sourced from [[menu.main]] in hugo.toml -->
         <ul class="nav-links" role="list">
-          {{ $currentPage := . }} {{ range .Site.Menus.main }}
+          {{ $currentPage := . }}
+          {{ range .Site.Menus.main }}
           <li>
             <a
               href="{{ .URL }}"
-              {{
-              if
-              $currentPage.IsMenuCurrent
-              `main`
-              .
-              }}aria-current="page"
-              {{
-              end
-              }}
+              {{ if $currentPage.IsMenuCurrent `main` . }}aria-current="page"{{ end }}
               class="{{ if $currentPage.IsMenuCurrent `main` . }}nav-active{{ end }}"
             >
               {{ .Name }}
@@ -160,15 +134,18 @@
               title="Switch color theme"
             >
               <i class="fa-solid fa-moon moon-icon" aria-hidden="true"></i>
-              <i class="fa-solid fa-sun sun-icon" aria-hidden="true"></i>
+              <i class="fa-solid fa-sun  sun-icon"  aria-hidden="true"></i>
             </button>
           </li>
         </ul>
+
       </nav>
     </header>
 
     <!-- ===================== Main Content ===================== -->
-    <main id="main-content">{{ block "main" . }}{{ end }}</main>
+    <main id="main-content">
+      {{ block "main" . }}{{ end }}
+    </main>
 
     <!-- ===================== Footer ===================== -->
     <footer>
@@ -179,7 +156,8 @@
             <i class="fa-solid fa-envelope" aria-hidden="true"></i>
             <a href="mailto:{{ . }}">{{ . }}</a>
           </span>
-          {{ end }} {{ with .Site.Params.instagramURL }}
+          {{ end }}
+          {{ with .Site.Params.instagramURL }}
           <a
             href="{{ . }}"
             class="insta-btn"
@@ -193,8 +171,8 @@
         </div>
         <p>© {{ now.Format "2006" }} Schützengilde Ampass</p>
         <p class="footer-legal">
-          <a href="/impressum">Impressum</a> ·
-          <a href="/datenschutz">Datenschutz</a>
+          <a href="{{ "impressum" | absURL }}">Impressum</a> ·
+          <a href="{{ "datenschutz" | absURL }}">Datenschutz</a>
         </p>
       </div>
     </footer>
@@ -215,5 +193,6 @@
         });
       })();
     </script>
+
   </body>
 </html>

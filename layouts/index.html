@@ -1,11 +1,13 @@
-{{ define "main" }} {{/* ── Hero ── */}}
+{{ define "main" }}
+
+{{/* ── Hero ── */}}
 <section class="hero-section">
   <div class="hero-content">
     <h1>Schützengilde Ampass</h1>
     <p class="hero-subtitle">Tradition bewahren – Sportgeist fördern.</p>
     <div class="hero-btns">
-      <a href="/termine" class="btn btn-primary">Nächste Termine</a>
-      <a href="/aktuelles" class="btn btn-accent">Aktuelles</a>
+      <a href="{{ "termine" | absURL }}" class="btn btn-primary">Nächste Termine</a>
+      <a href="{{ "aktuelles" | absURL }}" class="btn btn-accent">Aktuelles</a>
     </div>
   </div>
 </section>
@@ -29,15 +31,12 @@
     <div class="news-grid">
       {{ range first 3 (where .Site.RegularPages "Section" "aktuelles") }}
       <article class="news-card">
-        {{/* Page bundle image: resolve via .Resources, not raw .Params.image
-        string */}} {{ $img := .Resources.GetMatch .Params.image }} {{ if $img
-        }}
-        <div
-          class="news-image"
-          style="background-image: url('{{ $img.RelPermalink }}');"
-        ></div>
+        {{/* Page bundle image: resolve via .Resources, not raw .Params.image string */}}
+        {{ $img := .Resources.GetMatch .Params.image }}
+        {{ if $img }}
+          <div class="news-image" style="background-image: url('{{ $img.RelPermalink }}');"></div>
         {{ else }}
-        <div class="news-image placeholder"></div>
+          <div class="news-image placeholder"></div>
         {{ end }}
         <div class="news-content">
           <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
@@ -51,66 +50,53 @@
   </div>
 </section>
 
-{{/* ── Upcoming events preview ── */}}
-<section id="termine" class="termin-section">
-  <div class="container">
-    <h2 class="section-title">Nächste Termine</h2>
-    {{/* Only show future events; termine.yml uses combined datetime field */}}
-    {{ $now := now.Format "2006-01-02T15:04:05" }} {{ $upcoming := where
-    .Site.Data.termine "datetime" "ge" $now }} {{ if $upcoming }}
-    <div class="termin-grid-start">
-      {{ range first 3 (sort $upcoming "datetime" "asc") }}
-      <div class="termin-mini-card">
-        <div class="mini-date">
-          <span class="day">{{ dateFormat "02" .datetime }}</span>
-          <span class="month"
-            >{{ index (slice "" "Jän" "Feb" "Mär" "Apr" "Mai" "Jun" "Jul" "Aug"
-            "Sep" "Okt" "Nov" "Dez") (dateFormat "1" .datetime | int) }}</span
-          >
-        </div>
-        <div class="mini-info">
-          <h4>{{ .titel }}</h4>
-          <p>
-            <i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ .ort
-            }}
-          </p>
-          <span class="time">{{ dateFormat "15:04" .datetime }} Uhr</span>
-        </div>
-      </div>
-      {{ end }}
-    </div>
-    {{ else }}
-    <p class="no-events">Aktuell keine bevorstehenden Termine.</p>
-    {{ end }}
-    <div class="section-cta">
-      <a href="/termine" class="read-more">Alle Termine anzeigen →</a>
-    </div>
-  </div>
-</section>
-
 {{/* ── Partner & Links ── */}}
 <section class="association-box">
   <div class="container">
     <h2 class="section-title">Partner & Links</h2>
     <div class="partner-grid">
       {{ range .Site.Data.partner }}
-      <a
-        href="{{ .url }}"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="partner-card"
-      >
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="partner-card">
         <i class="{{ .icon }}" aria-hidden="true"></i>
         <div class="partner-info">
           <strong>{{ .name }}</strong>
           <span>{{ .description }}</span>
         </div>
-        <i
-          class="fa-solid fa-arrow-up-right-from-square partner-ext"
-          aria-hidden="true"
-        ></i>
+        <i class="fa-solid fa-arrow-up-right-from-square partner-ext" aria-hidden="true"></i>
       </a>
       {{ end }}
+    </div>
+  </div>
+</section>
+
+{{/* ── Upcoming events preview ── */}}
+<section id="termine" class="termin-section">
+  <div class="container">
+    <h2 class="section-title">Nächste Termine</h2>
+    {{/* Only show future events; termine.yml uses combined datetime field */}}
+    {{ $now := now.Format "2006-01-02T15:04:05" }}
+    {{ $upcoming := where .Site.Data.termine "datetime" "ge" $now }}
+    {{ if $upcoming }}
+      <div class="termin-grid-start">
+        {{ range first 3 (sort $upcoming "datetime" "asc") }}
+        <div class="termin-mini-card">
+          <div class="mini-date">
+            <span class="day">{{ dateFormat "02" .datetime }}</span>
+            <span class="month">{{ index (slice "" "Jän" "Feb" "Mär" "Apr" "Mai" "Jun" "Jul" "Aug" "Sep" "Okt" "Nov" "Dez") (dateFormat "1" .datetime | int) }}</span>
+          </div>
+          <div class="mini-info">
+            <h4>{{ .titel }}</h4>
+            <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ .ort }}</p>
+            <span class="time">{{ dateFormat "15:04" .datetime }} Uhr</span>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+    {{ else }}
+      <p class="no-events">Aktuell keine bevorstehenden Termine.</p>
+    {{ end }}
+    <div class="section-cta">
+      <a href="{{ "termine" | absURL }}" class="read-more">Alle Termine anzeigen →</a>
     </div>
   </div>
 </section>
