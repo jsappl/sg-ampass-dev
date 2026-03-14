@@ -1,7 +1,8 @@
 {{ define "main" }}
 
 {{/* ── Hero ── */}}
-<section class="hero-section">
+{{- $banner := resources.Get "banner.webp" -}}
+<section class="hero-section"{{ if $banner }} style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('{{ $banner.RelPermalink }}');"{{ end }}>
   <div class="hero-content">
     <h1>Schützengilde Ampass</h1>
     <p class="hero-subtitle">Tradition bewahren – Sportgeist fördern.</p>
@@ -50,25 +51,6 @@
   </div>
 </section>
 
-{{/* ── Partner & Links ── */}}
-<section class="association-box">
-  <div class="container">
-    <h2 class="section-title">Partner & Links</h2>
-    <div class="partner-grid">
-      {{ range .Site.Data.partner }}
-      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="partner-card">
-        <i class="{{ .icon }}" aria-hidden="true"></i>
-        <div class="partner-info">
-          <strong>{{ .name }}</strong>
-          <span>{{ .description }}</span>
-        </div>
-        <i class="fa-solid fa-arrow-up-right-from-square partner-ext" aria-hidden="true"></i>
-      </a>
-      {{ end }}
-    </div>
-  </div>
-</section>
-
 {{/* ── Upcoming events preview ── */}}
 <section id="termine" class="termin-section">
   <div class="container">
@@ -97,6 +79,25 @@
     {{ end }}
     <div class="section-cta">
       <a href="{{ "termine" | absURL }}" class="read-more">Alle Termine anzeigen →</a>
+    </div>
+  </div>
+</section>
+
+{{/* ── Partner & Links ── */}}
+<section class="association-box">
+  <div class="container">
+    <h2 class="section-title">Partner & Links</h2>
+    <div class="partner-grid">
+      {{ range .Site.Data.partner }}
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="partner-card">
+        <i class="{{ .icon }}" aria-hidden="true"></i>
+        <div class="partner-info">
+          <strong>{{ .name }}</strong>
+          <span>{{ .description }}</span>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square partner-ext" aria-hidden="true"></i>
+      </a>
+      {{ end }}
     </div>
   </div>
 </section>
