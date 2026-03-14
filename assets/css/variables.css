@@ -17,27 +17,7 @@
 */
 
 :root {
-    /* ── Dark Mode (Standard) ── */
-    --bg-color:        #0a0a0a;             /* Schwarz wie Logosilhouette */
-    --text-color:      #f0f0f0;
-    --card-bg:         #151515;             /* Warm dark grey — hebt sich von bg ab */
-    --card-border:     rgba(255,255,255,0.07);
-
-    --primary:         #c41e1e;             /* Logo-Rot */
-    --accent:          #e03030;             /* Etwas heller für Hover/Glow-Effekte */
-    --hover-color:     #e03030;             /* Nav hover: helleres Rot auf schwarz */
-    --section-title:   #f0f0f0;             /* Weiß auf schwarz — Rot wäre zu laut */
-
-    --footer-bg:       #000000;
-    --muted-text:      #888888;
-    --nav-bg:          rgba(10, 10, 10, 0.98);
-    --border-color:    rgba(255,255,255,0.07);
-    --img-placeholder: #1e1e1e;
-    --date-text:       #ffffff;
-}
-
-[data-theme="light"] {
-    /* ── Light Mode: Papier & Tinte ── */
+    /* ── Light Mode (Standard) ── */
     --bg-color:        #f5f4f2;             /* Warmes off-white */
     --text-color:      #0f0f0f;             /* Fast-schwarz wie Logosilhouette */
     --card-bg:         #ffffff;
@@ -57,6 +37,25 @@
     --date-text:       #ffffff;
 }
 
+[data-theme="dark"] {
+    /* ── Dark Mode ── */
+    --bg-color:        #0a0a0a;             /* Schwarz wie Logosilhouette */
+    --text-color:      #f0f0f0;
+    --card-bg:         #151515;             /* Warm dark grey — hebt sich von bg ab */
+    --card-border:     rgba(255,255,255,0.07);
+
+    --primary:         #c41e1e;             /* Logo-Rot */
+    --accent:          #e03030;             /* Etwas heller für Hover/Glow-Effekte */
+    --hover-color:     #e03030;             /* Nav hover: helleres Rot auf schwarz */
+    --section-title:   #f0f0f0;             /* Weiß auf schwarz — Rot wäre zu laut */
+
+    --footer-bg:       #000000;
+    --muted-text:      #888888;
+    --nav-bg:          rgba(10, 10, 10, 0.98);
+    --border-color:    rgba(255,255,255,0.07);
+    --img-placeholder: #1e1e1e;
+    --date-text:       #ffffff;
+}
 
 /* =========================================
    2. BASICS & LAYOUT

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de" data-theme="dark">
+<html lang="de" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,14 +23,14 @@
     <!--
       Runs synchronously before paint. Reads localStorage and applies
       the saved theme to <html> immediately — prevents a flash of the
-      default dark theme when a user has light mode saved.
-      The fallback default is "dark" to match :root in style.css.
+      default light theme when a user has dark mode saved.
+      The fallback default is "light" to match :root in variables.css.
     -->
     <script>
       (function () {
-        var theme = localStorage.getItem("theme") || "dark";
+        var theme = localStorage.getItem("theme") || "light";
         document.documentElement.setAttribute("data-theme", theme);
-        // Apply matching background instantly so no white/black flash occurs
+        // Apply matching background instantly so no flash occurs
         document.documentElement.style.backgroundColor =
           theme === "light" ? "#f5f4f2" : "#0a0a0a";
       })();
