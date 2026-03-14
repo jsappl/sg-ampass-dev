@@ -69,13 +69,17 @@
    ========================================= */
 footer {
     background-color: var(--footer-bg);
-    padding: 40px 20px;
+    padding: 16px 20px;
     text-align: center;
     border-top: 1px solid var(--border-color);
     transition: background-color 0.3s;
 }
 
-footer p { color: var(--muted-text); }
+footer p {
+    color: var(--muted-text);
+    font-size: 0.85rem;
+    margin: 4px 0;
+}
 
 .flex-row {
     display: flex;

@@ -1,5 +1,6 @@
 {{ define "main" }}
-<section class="container">
+<section class="aktuelles-page">
+  <div class="container">
   <h1 class="section-title">{{ .Title }}</h1>
 
   <div class="news-grid">
@@ -37,8 +38,9 @@
   {{ end }}
 
   <div class="section-cta">
-    <a href="{{ "/" | relURL }}" class="btn btn-primary">← Zurück zur Startseite</a>
+    <a href="{{ .Site.BaseURL }}" class="btn btn-primary">← Zurück zur Startseite</a>
   </div>
 
+ </div>
 </section>
 {{ end }}

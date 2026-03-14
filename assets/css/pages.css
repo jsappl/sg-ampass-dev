@@ -538,3 +538,9 @@
     padding-bottom: 6px;
     border-bottom: 1px solid var(--border-color);
 }
+
+
+/* =========================================
+   AKTUELLES PAGE
+   ========================================= */
+.aktuelles-page { padding: 40px 0 80px; }
