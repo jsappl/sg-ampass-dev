@@ -17,6 +17,14 @@
     height: 80px;
 }
 
+/* Hide alt text while image loads, prevent blue link flash */
+.logo-link {
+    display: flex;
+    align-items: center;
+    font-size: 0;
+    color: transparent;
+}
+
 .nav-logo {
     height: 50px;
     width: auto;
@@ -27,7 +35,7 @@
 .nav-logo:hover { transform: scale(1.05); }
 
 /* Show correct logo variant per theme */
-.nav-logo-dark          { display: none; }        /* hidden by default (light) */
+.nav-logo-dark                      { display: none; }  /* hidden by default (light) */
 [data-theme="dark"] .nav-logo-light { display: none; }
 [data-theme="dark"] .nav-logo-dark  { display: block; }
 

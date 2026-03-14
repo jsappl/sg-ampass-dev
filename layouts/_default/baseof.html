@@ -43,14 +43,15 @@
     <link rel="manifest"         href="{{ "site.webmanifest"     | absURL }}" />
 
     <!-- ===================== Preload critical assets ===================== -->
-    {{- $logo     := resources.Get "sg-ampass-logo.webp"          -}}
-    {{- $logoDark := resources.Get "sg-ampass-logo-for-dark.webp"  -}}
-    {{ if $logo }}
-    <link rel="preload" as="image" href="{{ $logo.RelPermalink }}"     media="(prefers-color-scheme: light)" />
-    {{ end }}
-    {{ if $logoDark }}
-    <link rel="preload" as="image" href="{{ $logoDark.RelPermalink }}" media="(prefers-color-scheme: dark)" />
-    {{ end }}
+    <!--
+      Both logos preloaded unconditionally — the active theme is determined
+      by localStorage, not OS preference, so we can't predict which is needed.
+      Browser cache means only one HTTP request per logo per session.
+    -->
+    {{- $logo     := resources.Get "sg-ampass-logo.webp"         -}}
+    {{- $logoDark := resources.Get "sg-ampass-logo-for-dark.webp" -}}
+    {{ if $logo     }}<link rel="preload" as="image" href="{{ $logo.RelPermalink }}"     />{{ end }}
+    {{ if $logoDark }}<link rel="preload" as="image" href="{{ $logoDark.RelPermalink }}" />{{ end }}
 
     <!-- ===================== Fonts & Icons ===================== -->
     <link
