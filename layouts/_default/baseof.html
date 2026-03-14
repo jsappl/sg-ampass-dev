@@ -43,9 +43,13 @@
     <link rel="manifest"         href="{{ "site.webmanifest"     | absURL }}" />
 
     <!-- ===================== Preload critical assets ===================== -->
-    {{- $logo := resources.Get "sg-ampass-logo.webp" -}}
+    {{- $logo     := resources.Get "sg-ampass-logo.webp"          -}}
+    {{- $logoDark := resources.Get "sg-ampass-logo-for-dark.webp"  -}}
     {{ if $logo }}
-    <link rel="preload" as="image" href="{{ $logo.RelPermalink }}" />
+    <link rel="preload" as="image" href="{{ $logo.RelPermalink }}"     media="(prefers-color-scheme: light)" />
+    {{ end }}
+    {{ if $logoDark }}
+    <link rel="preload" as="image" href="{{ $logoDark.RelPermalink }}" media="(prefers-color-scheme: dark)" />
     {{ end }}
 
     <!-- ===================== Fonts & Icons ===================== -->
@@ -79,13 +83,22 @@
     <header class="main-header">
       <nav class="navbar container" aria-label="Main navigation">
 
-        <!-- Logo — $logo already fetched above, reuse here -->
+        <!-- Logo — light/dark variants swapped via CSS class -->
         <a href="{{ .Site.BaseURL }}" class="logo-link" aria-label="{{ .Site.Title }} – Home">
           {{ if $logo }}
           <img
             src="{{ $logo.RelPermalink }}"
             alt="{{ .Site.Title }} Logo"
-            class="nav-logo"
+            class="nav-logo nav-logo-light"
+            width="180"
+            height="60"
+          />
+          {{ end }}
+          {{ if $logoDark }}
+          <img
+            src="{{ $logoDark.RelPermalink }}"
+            alt="{{ .Site.Title }} Logo"
+            class="nav-logo nav-logo-dark"
             width="180"
             height="60"
           />

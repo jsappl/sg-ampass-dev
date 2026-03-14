@@ -26,6 +26,11 @@
 
 .nav-logo:hover { transform: scale(1.05); }
 
+/* Show correct logo variant per theme */
+.nav-logo-dark          { display: none; }        /* hidden by default (light) */
+[data-theme="dark"] .nav-logo-light { display: none; }
+[data-theme="dark"] .nav-logo-dark  { display: block; }
+
 .nav-links {
     display: flex;
     list-style: none;
