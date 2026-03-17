@@ -3,6 +3,8 @@ languageCode = 'de-AT'
 title = 'Schützengilde Ampass'
 timeZone = 'Europe/Vienna'
 
+disableKinds = ["taxonomy", "term"]
+
 # How many posts per page on /posts
 paginate = 6
 
