@@ -3,8 +3,9 @@
   <header class="post-header">
     <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
     <h1>{{ .Title }}</h1>
-    {{/* Page bundle image: resolve via .Resources, not raw .Params.image string
-    */}} {{ $img := .Resources.GetMatch .Params.image }} {{ if $img }}
+    {{/* Featured image — first/only image shown large in header */}}
+    {{ $img := .Resources.GetMatch .Params.image }}
+    {{ if $img }}
     <img
       src="{{ $img.RelPermalink }}"
       alt="{{ .Title }}"
@@ -17,6 +18,26 @@
 
   <div class="post-content">{{ .Content }}</div>
 
+  {{/* Gallery — multiple images listed under 'images:' in frontmatter */}}
+  {{ if .Params.images }}
+  <div class="post-gallery">
+    {{ range .Params.images }}
+      {{ $gimg := $.Resources.GetMatch . }}
+      {{ if $gimg }}
+      <a href="{{ $gimg.RelPermalink }}" target="_blank" rel="noopener">
+        <img
+          src="{{ ($gimg.Fill "600x400 webp").RelPermalink }}"
+          alt="{{ $.Title }}"
+          class="gallery-img"
+          width="600"
+          height="400"
+        />
+      </a>
+      {{ end }}
+    {{ end }}
+  </div>
+  {{ end }}
+
   <footer class="post-footer">
     {{/* Prev/next within the same section */}}
     <nav class="post-nav" aria-label="Post navigation">
@@ -25,7 +46,8 @@
         <span class="nav-label">← Neuerer Beitrag</span>
         <span class="nav-title">{{ .Title }}</span>
       </a>
-      {{ end }} {{ with .NextInSection }}
+      {{ end }}
+      {{ with .NextInSection }}
       <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-next">
         <span class="nav-label">Älterer Beitrag →</span>
         <span class="nav-title">{{ .Title }}</span>
@@ -33,9 +55,7 @@
       {{ end }}
     </nav>
     {{/* Back to section list, not hardcoded "/" */}}
-    <a href="{{ .Parent.RelPermalink }}" class="btn btn-primary"
-      >← Zurück zur Übersicht</a
-    >
+    <a href="{{ .Parent.RelPermalink }}" class="btn btn-primary">← Zurück zur Übersicht</a>
   </footer>
 </article>
 {{ end }}
