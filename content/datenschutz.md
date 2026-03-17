@@ -10,7 +10,7 @@ layout: "plain"
 
 Schützengilde Ampass  
 Römerstraße 21, 6070 Ampass  
-E-Mail: info@sg-ampass.at
+E-Mail: info@schuetzengilde-ampass.at
 
 ## Grundsatz
 
@@ -19,11 +19,14 @@ weder Tracking noch Analyse-Tools. Es werden keine Cookies gesetzt.
 
 ## Hosting
 
-Diese Website wird über <!-- TODO: Hosting-Anbieter eintragen, z.B. "GitHub Pages" oder "Netlify" -->
+Diese Website wird über ALL-INKL.COM
 bereitgestellt. Beim Aufruf der Website werden vom Hosting-Anbieter
 technisch notwendige Verbindungsdaten (IP-Adresse, Zeitstempel) in
 Server-Logfiles gespeichert. Diese Daten sind für den Betrieb der Website
 erforderlich und werden nicht an Dritte weitergegeben.
+
+Weitere Informationen finden Sie in der
+[Datenschutzerklärung von ALL-INKL.COM](https://all-inkl.com/datenschutz/).
 
 **Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
 am sicheren Betrieb der Website).

@@ -9,7 +9,7 @@ paginate = 6
 [params]
 description = "Tradition und Sport in Ampass – Schützengilde Ampass"
 instagramURL = "https://www.instagram.com/schuetzengilde_ampass/"
-email = "info@sg-ampass.at"
+email = "info@schuetzengilde-ampass.at"
 address = "Römerstraße 21, 6070 Ampass"
 
 # Main navigation — order controlled by weight.

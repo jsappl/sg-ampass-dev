@@ -13,7 +13,7 @@ Römerstraße 21
 6070 Ampass  
 Österreich
 
-**E-Mail:** info@sg-ampass.at
+**E-Mail:** info@schuetzengilde-ampass.at
 
 **ZVR-Zahl:** 019584598 <!-- zvr.bmi.gv.at -->
 
