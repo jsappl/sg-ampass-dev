@@ -57,10 +57,32 @@
 .termin-item, .termin-item-full {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     padding: 15px;
     border-bottom: none;
     border-left: 4px solid var(--primary);
     margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .termin-item-full {
+        gap: 10px;
+    }
+    .termin-details {
+        flex: 1 1 100%;
+        order: 2;
+        padding: 0;
+    }
+    .termin-date-box {
+        order: 1;
+    }
+    .termin-actions {
+        order: 3;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-left: 0;
+    }
 }
 
 
@@ -69,7 +91,7 @@
    ========================================= */
 footer {
     background-color: var(--footer-bg);
-    padding: 16px 20px;
+    padding: 24px 20px;
     text-align: center;
     border-top: 1px solid var(--border-color);
     transition: background-color 0.3s;
