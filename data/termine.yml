@@ -3,6 +3,11 @@
 # Templates filter with: where .Site.Data.termine "datetime" "ge" (now.Format "2006-01-02T15:04:05")
 # Typ: Sport / Intern / Event
 
+- datetime: "2026-04-25T19:30:00"
+  titel: "Jahreshauptversammlung"
+  ort: "Schützenlokal Ampass"
+  typ: "Event"
+
 - datetime: "2026-03-20T18:00:00"
   titel: "Dorfmeisterschaft"
   ort: "Schützenlokal Ampass"
