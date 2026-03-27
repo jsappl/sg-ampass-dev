@@ -3,39 +3,123 @@
   <header class="post-header">
     <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
     <h1>{{ .Title }}</h1>
-    {{/* Featured image — first/only image shown large in header */}}
-    {{ $img := .Resources.GetMatch .Params.image }}
-    {{ if $img }}
-    <img
-      src="{{ $img.RelPermalink }}"
-      alt="{{ .Title }}"
-      class="featured-image"
-      width="{{ $img.Width }}"
-      height="{{ $img.Height }}"
-    />
+    {{/* Featured image — only when 'image' is a single string */}}
+    {{ if eq (printf "%T" .Params.image) "string" }}
+      {{ $img := .Resources.GetMatch .Params.image }}
+      {{ if $img }}
+      <img
+        src="{{ $img.RelPermalink }}"
+        alt="{{ .Title }}"
+        class="featured-image"
+        width="{{ $img.Width }}"
+        height="{{ $img.Height }}"
+      />
+      {{ end }}
     {{ end }}
   </header>
 
   <div class="post-content">{{ .Content }}</div>
 
-  {{/* Gallery — multiple images listed under 'images:' in frontmatter */}}
-  {{ if .Params.images }}
-  <div class="post-gallery">
-    {{ range .Params.images }}
-      {{ $gimg := $.Resources.GetMatch . }}
+  {{/* Gallery — 'image' as a list, or legacy 'images' key */}}
+  {{ $galleryImages := slice }}
+  {{ if and .Params.image (ne (printf "%T" .Params.image) "string") }}
+    {{ $galleryImages = .Params.image }}
+  {{ else if .Params.images }}
+    {{ $galleryImages = .Params.images }}
+  {{ end }}
+  {{ if $galleryImages }}
+  <div class="post-gallery" id="post-gallery">
+    {{ range $i, $name := $galleryImages }}
+      {{ $gimg := $.Resources.GetMatch $name }}
       {{ if $gimg }}
-      <a href="{{ $gimg.RelPermalink }}" target="_blank" rel="noopener">
+      <button
+        class="gallery-item"
+        data-src="{{ $gimg.RelPermalink }}"
+        aria-label="Bild {{ add $i 1 }} vergrößern"
+      >
         <img
           src="{{ ($gimg.Fill "600x400 webp").RelPermalink }}"
           alt="{{ $.Title }}"
           class="gallery-img"
           width="600"
           height="400"
+          loading="lazy"
         />
-      </a>
+      </button>
       {{ end }}
     {{ end }}
   </div>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Bildergalerie">
+    <button class="lightbox-close" aria-label="Schließen">&#x2715;</button>
+    <button class="lightbox-prev" aria-label="Vorheriges Bild">&#10094;</button>
+    <div class="lightbox-img-wrap">
+      <img class="lightbox-img" src="" alt="" />
+    </div>
+    <button class="lightbox-next" aria-label="Nächstes Bild">&#10095;</button>
+    <span class="lightbox-counter"></span>
+  </div>
+
+  <script>
+  (function () {
+    var gallery = document.getElementById('post-gallery');
+    var lightbox = document.getElementById('lightbox');
+    if (!gallery || !lightbox) return;
+
+    var lbImg     = lightbox.querySelector('.lightbox-img');
+    var lbCounter = lightbox.querySelector('.lightbox-counter');
+    var lbPrev    = lightbox.querySelector('.lightbox-prev');
+    var lbNext    = lightbox.querySelector('.lightbox-next');
+    var items     = Array.from(gallery.querySelectorAll('.gallery-item'));
+    var current   = 0;
+
+    if (items.length <= 1) {
+      lbPrev.hidden = true;
+      lbNext.hidden = true;
+    }
+
+    function show(index) {
+      current = (index + items.length) % items.length;
+      lbImg.src = items[current].dataset.src;
+      lbImg.alt = items[current].querySelector('img').alt;
+      lbCounter.textContent = (current + 1) + '\u00a0/\u00a0' + items.length;
+    }
+
+    function open(index) {
+      show(index);
+      lightbox.setAttribute('aria-hidden', 'false');
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      lightbox.querySelector('.lightbox-close').focus();
+    }
+
+    function close() {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      items[current].focus();
+    }
+
+    items.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { open(i); });
+    });
+
+    lightbox.querySelector('.lightbox-close').addEventListener('click', close);
+    lbPrev.addEventListener('click', function () { show(current - 1); });
+    lbNext.addEventListener('click', function () { show(current + 1); });
+
+    lightbox.addEventListener('click', function (e) {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-img-wrap')) close();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape')      close();
+      if (e.key === 'ArrowLeft')   show(current - 1);
+      if (e.key === 'ArrowRight')  show(current + 1);
+    });
+  })();
+  </script>
   {{ end }}
 
   <footer class="post-footer">

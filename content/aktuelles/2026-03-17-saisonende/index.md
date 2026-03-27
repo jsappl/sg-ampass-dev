@@ -4,7 +4,7 @@ draft: false
 params:
   author: Johannes Sappl
 title: Saisonende 2025/26
-image: "saisonende.webp" # or lis of images for multiple
+image: "saisonende.webp" # or list of images for multiple
 ---
 
 <!-- ltex: language=de-AT -->

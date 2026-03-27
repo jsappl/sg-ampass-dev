@@ -6,8 +6,10 @@
   <div class="news-grid">
     {{ range .Paginator.Pages }}
     <article class="news-card">
-      {{/* Page bundle image: resolve via .Resources, not raw .Params.image string */}}
-      {{ $img := .Resources.GetMatch .Params.image }}
+      {{/* Page bundle image: use first item if image is a list */}}
+      {{ $imgName := .Params.image }}
+      {{ if ne (printf "%T" .Params.image) "string" }}{{ $imgName = index .Params.image 0 }}{{ end }}
+      {{ $img := .Resources.GetMatch $imgName }}
       {{ if $img }}
         <div class="news-image" style="background-image: url('{{ $img.RelPermalink }}');"></div>
       {{ else }}
