@@ -333,6 +333,54 @@
 
 .post-gallery a:hover .gallery-img { opacity: 0.85; }
 
+/* Tables in post content */
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.95rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.post-content thead tr {
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.post-content th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.post-content td {
+    padding: 9px 14px;
+    border-top: 1px solid var(--border-color);
+}
+
+.post-content tbody tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="dark"] .post-content tbody tr:nth-child(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Gold/silver/bronze highlight for top 3 */
+.post-content tbody tr:nth-child(1) td:first-child { color: #c9a227; font-weight: 700; }
+.post-content tbody tr:nth-child(2) td:first-child { color: #8a9197; font-weight: 700; }
+.post-content tbody tr:nth-child(3) td:first-child { color: #a0522d; font-weight: 700; }
+
+@media (max-width: 600px) {
+    .post-content table { font-size: 0.875rem; }
+    .post-content th,
+    .post-content td { padding: 7px 10px; }
+}
+
 
 /* =========================================
    16. AUSSCHUSS PAGE
