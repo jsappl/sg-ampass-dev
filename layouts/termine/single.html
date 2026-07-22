@@ -53,9 +53,6 @@
       <p class="no-events">Aktuell keine bevorstehenden Termine.</p>
     {{ end }}
 
-    <div class="section-cta">
-      <a href="{{ .Site.BaseURL }}" class="btn btn-primary">← Zurück zur Startseite</a>
-    </div>
   </div>
 </section>
 
@@ -70,11 +67,11 @@ document.querySelectorAll(".ics-download-btn").forEach(function(btn) {
     // Format "2026-03-15T19:00:00" → "20260315T190000"
     var dt = datetime.replace(/-/g, "").replace(/:/g, "");
 
-    // End time = start + 2 hours, keeping local time (no UTC conversion)
-    var parts   = datetime.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
-    // Add 2h to hour component manually to avoid UTC timezone issues
-    var endHour = String(parseInt(parts[4], 10) + 2).padStart(2, "0");
-    var dtEnd   = parts[1] + parts[2] + parts[3] + "T" + endHour + parts[5] + parts[6];
+    // End time = start + 2h; construct via Date parts (local time) to handle midnight rollover
+    var p = datetime.match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+    var end = new Date(+p[1], +p[2]-1, +p[3], +p[4]+2, +p[5], +p[6]);
+    var pad = function(n) { return String(n).padStart(2, "0"); };
+    var dtEnd = end.getFullYear() + pad(end.getMonth()+1) + pad(end.getDate()) + "T" + pad(end.getHours()) + pad(end.getMinutes()) + pad(end.getSeconds());
 
     var uid = dt + "@sg-ampass.at";
 

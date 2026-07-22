@@ -24,9 +24,15 @@
 
 .news-image {
     height: 180px;
+    overflow: hidden;
     background-color: var(--img-placeholder);
-    background-size: cover;
-    background-position: center;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .news-content, .mini-info, .termin-details { padding: 20px; }

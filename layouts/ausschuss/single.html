@@ -12,7 +12,7 @@
           {{ if .photo }}
             {{ $img := resources.Get .photo }}
             {{ if $img }}
-              <img src="{{ $img.RelPermalink }}" alt="{{ .name }}" />
+              <img src="{{ ($img.Fill "400x400 webp Center").RelPermalink }}" alt="{{ .name }}" width="400" height="400" loading="lazy" />
             {{ end }}
           {{ else }}
             <img src="{{ "avatar-placeholder.svg" | absURL }}" alt="{{ .name }}" class="ausschuss-placeholder" />
@@ -34,9 +34,6 @@
         </div>
       </div>
       {{ end }}
-    </div>
-    <div class="section-cta">
-      <a href="{{ .Site.BaseURL }}" class="btn btn-primary">← Zurück zur Startseite</a>
     </div>
   </div>
 </section>

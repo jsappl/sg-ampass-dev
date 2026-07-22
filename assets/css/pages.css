@@ -1,20 +1,6 @@
 /* =========================================
    10. HOMEPAGE SECTIONS
    ========================================= */
-.intro-section {
-    padding: 60px 0;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.intro-section h2 { margin-top: 0; }
-
-.intro-section p {
-    font-size: 1.1rem;
-    max-width: 680px;
-    margin: 0 auto;
-    color: var(--muted-text);
-}
-
 .news-preview {
     padding: 60px 0;
     border-bottom: 1px solid var(--border-color);
@@ -339,6 +325,7 @@
     cursor: zoom-in;
     border-radius: 6px;
     overflow: hidden;
+    aspect-ratio: 4 / 3;
 }
 
 .gallery-item:hover .gallery-img { opacity: 0.85; }

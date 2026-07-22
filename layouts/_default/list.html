@@ -10,11 +10,11 @@
       {{ $imgName := .Params.image }}
       {{ if ne (printf "%T" .Params.image) "string" }}{{ $imgName = index .Params.image 0 }}{{ end }}
       {{ $img := .Resources.GetMatch $imgName }}
-      {{ if $img }}
-        <div class="news-image" style="background-image: url('{{ $img.RelPermalink }}');"></div>
-      {{ else }}
-        <div class="news-image placeholder"></div>
-      {{ end }}
+      <div class="news-image">
+        {{ if $img }}
+        <img src="{{ ($img.Fill "600x360 webp").RelPermalink }}" alt="{{ .Title }}" loading="lazy" width="600" height="360" />
+        {{ end }}
+      </div>
       <div class="news-content">
         <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
         <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
@@ -39,9 +39,6 @@
   </nav>
   {{ end }}
 
-  <div class="section-cta">
-    <a href="{{ .Site.BaseURL }}" class="btn btn-primary">← Zurück zur Startseite</a>
-  </div>
 
  </div>
 </section>
