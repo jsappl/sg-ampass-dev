@@ -3,6 +3,18 @@
 {{/* ── Hero ── */}}
 {{- $banner := resources.Get "banner.webp" -}}
 <section class="hero-section"{{ if $banner }} style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('{{ $banner.RelPermalink }}');"{{ end }}>
+  <svg class="hero-target" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="200" cy="200" r="195" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="156" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="117" fill="none" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="78"  fill="none" stroke="white" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="39"  fill="none" stroke="white" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="12"  fill="white"/>
+    <line x1="200" y1="158" x2="200" y2="182" stroke="white" stroke-width="1"/>
+    <line x1="200" y1="218" x2="200" y2="242" stroke="white" stroke-width="1"/>
+    <line x1="158" y1="200" x2="182" y2="200" stroke="white" stroke-width="1"/>
+    <line x1="218" y1="200" x2="242" y2="200" stroke="white" stroke-width="1"/>
+  </svg>
   <div class="hero-content">
     <h1>Schützengilde Ampass</h1>
     <p class="hero-subtitle">Tradition bewahren – Sportgeist fördern.</p>
@@ -17,7 +29,7 @@
 <section class="news-preview">
   <div class="container">
     <h2 class="section-title">Aktuelles</h2>
-    <div class="news-grid">
+    <div class="news-grid news-grid--featured">
       {{ range $i, $page := first 3 (where .Site.RegularPages "Section" "aktuelles") }}
       <article class="news-card">
         {{/* Page bundle image: use first item if image is a list */}}
@@ -26,7 +38,11 @@
         {{ $img := $page.Resources.GetMatch $imgName }}
         <div class="news-image">
           {{ if $img }}
-          <img src="{{ ($img.Fill "600x360 webp").RelPermalink }}" alt="{{ $page.Title }}" loading="{{ if eq $i 0 }}eager{{ else }}lazy{{ end }}" width="600" height="360" />
+          {{ if eq $i 0 }}
+          <img src="{{ ($img.Fill "900x560 webp").RelPermalink }}" alt="{{ $page.Title }}" loading="eager" width="900" height="560" />
+          {{ else }}
+          <img src="{{ ($img.Fill "600x360 webp").RelPermalink }}" alt="{{ $page.Title }}" loading="lazy" width="600" height="360" />
+          {{ end }}
           {{ end }}
         </div>
         <div class="news-content">

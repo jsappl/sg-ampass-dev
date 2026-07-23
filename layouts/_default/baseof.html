@@ -30,9 +30,8 @@
       (function () {
         var theme = localStorage.getItem("theme") || "light";
         document.documentElement.setAttribute("data-theme", theme);
-        // Apply matching background instantly so no flash occurs
         document.documentElement.style.backgroundColor =
-          theme === "light" ? "#f5f4f2" : "#0a0a0a";
+          theme === "light" ? "#edeae2" : "#1a1714";
       })();
     </script>
 
@@ -170,30 +169,28 @@
     <!-- ===================== Footer ===================== -->
     <footer>
       <div class="container">
-        <div class="flex-row">
-          {{ with .Site.Params.email }}
-          <span class="contact-item">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-            <a href="mailto:{{ . }}">{{ . }}</a>
-          </span>
-          {{ end }}
-          {{ with .Site.Params.instagramURL }}
-          <a
-            href="{{ . }}"
-            class="insta-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-          >
-            <i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram
-          </a>
-          {{ end }}
+        <div class="footer-top">
+          <span class="footer-name">Schützengilde Ampass</span>
+          <div class="footer-links">
+            {{ with .Site.Params.email }}
+            <a href="mailto:{{ . }}" class="footer-link">
+              <i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ . }}
+            </a>
+            {{ end }}
+            {{ with .Site.Params.instagramURL }}
+            <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram
+            </a>
+            {{ end }}
+          </div>
         </div>
-        <p>© {{ now.Format "2006" }} Schützengilde Ampass</p>
-        <p class="footer-legal">
-          <a href="{{ "impressum" | absURL }}">Impressum</a> ·
-          <a href="{{ "datenschutz" | absURL }}">Datenschutz</a>
-        </p>
+        <div class="footer-bottom">
+          <span>© {{ now.Format "2006" }} Schützengilde Ampass</span>
+          <div class="footer-legal">
+            <a href="{{ "impressum" | absURL }}">Impressum</a>
+            <a href="{{ "datenschutz" | absURL }}">Datenschutz</a>
+          </div>
+        </div>
       </div>
     </footer>
 
@@ -208,7 +205,7 @@
           document.documentElement.setAttribute("data-theme", next);
           // Sync background immediately to avoid any flash on rapid toggling
           document.documentElement.style.backgroundColor =
-            next === "light" ? "#f5f4f2" : "#0a0a0a";
+            next === "light" ? "#edeae2" : "#1a1714";
           localStorage.setItem("theme", next);
         });
       })();

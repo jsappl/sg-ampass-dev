@@ -5,9 +5,6 @@ timeZone = 'Europe/Vienna'
 
 disableKinds = ["taxonomy", "term"]
 
-# How many posts per page on /posts
-paginate = 6
-
 [params]
 description = "Tradition und Sport in Ampass – Schützengilde Ampass"
 instagramURL = "https://www.instagram.com/schuetzengilde_ampass/"

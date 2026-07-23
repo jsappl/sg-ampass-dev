@@ -1,24 +1,30 @@
 {{ define "main" }}
-<article class="single-post container">
-  <header class="post-header">
+
+{{/* First image — used for hero bg regardless of single/list type */}}
+{{ $firstImgName := "" }}
+{{ if .Params.image }}
+  {{ if eq (printf "%T" .Params.image) "string" }}
+    {{ $firstImgName = .Params.image }}
+  {{ else }}
+    {{ $firstImgName = index .Params.image 0 }}
+  {{ end }}
+{{ end }}
+{{ $heroImg := false }}
+{{ if $firstImgName }}{{ $heroImg = .Resources.GetMatch $firstImgName }}{{ end }}
+
+{{/* Full-bleed post hero */}}
+<div class="post-hero{{ if not $heroImg }} post-hero--text-only{{ end }}"
+  {{- if $heroImg }} style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.78) 100%), url('{{ ($heroImg.Fill "1400x700 webp Smart").RelPermalink }}');"{{ end }}>
+  <div class="container post-hero-inner">
     <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
     <h1>{{ .Title }}</h1>
-    {{/* Featured image — only when 'image' is a single string */}}
-    {{ if eq (printf "%T" .Params.image) "string" }}
-      {{ $img := .Resources.GetMatch .Params.image }}
-      {{ if $img }}
-      <img
-        src="{{ $img.RelPermalink }}"
-        alt="{{ .Title }}"
-        class="featured-image"
-        width="{{ $img.Width }}"
-        height="{{ $img.Height }}"
-      />
-      {{ end }}
-    {{ end }}
-  </header>
+  </div>
+</div>
+
+<article class="single-post container">
 
   <div class="post-content">{{ .Content }}</div>
+
 
   {{/* Gallery — 'image' as a list, or legacy 'images' key */}}
   {{ $galleryImages := slice }}
@@ -82,7 +88,7 @@
       current = (index + items.length) % items.length;
       lbImg.src = items[current].dataset.src;
       lbImg.alt = items[current].querySelector('img').alt;
-      lbCounter.textContent = (current + 1) + '\u00a0/\u00a0' + items.length;
+      lbCounter.textContent = (current + 1) + ' / ' + items.length;
     }
 
     function open(index) {
@@ -122,24 +128,14 @@
   </script>
   {{ end }}
 
-  <footer class="post-footer">
-    {{/* Prev/next within the same section */}}
-    <nav class="post-nav" aria-label="Post navigation">
-      {{ with .PrevInSection }}
-      <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-prev">
-        <span class="nav-label">← Neuerer Beitrag</span>
-        <span class="nav-title">{{ .Title }}</span>
-      </a>
-      {{ end }}
-      {{ with .NextInSection }}
-      <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-next">
-        <span class="nav-label">Älterer Beitrag →</span>
-        <span class="nav-title">{{ .Title }}</span>
-      </a>
-      {{ end }}
-    </nav>
-    {{/* Back to section list, not hardcoded "/" */}}
-    <a href="{{ .Parent.RelPermalink }}" class="read-more">← Zurück zur Übersicht</a>
-  </footer>
 </article>
+
+<div class="post-back-bar">
+  <div class="container">
+    <a href="{{ .Parent.RelPermalink }}" class="post-back-link">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      Alle Beiträge
+    </a>
+  </div>
+</div>
 {{ end }}

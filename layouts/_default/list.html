@@ -4,9 +4,9 @@
   <h1 class="section-title">{{ .Title }}</h1>
 
   <div class="news-grid">
-    {{ range .Paginator.Pages }}
+    {{ range .Site.RegularPages }}
+    {{ if eq .Section $.Section }}
     <article class="news-card">
-      {{/* Page bundle image: use first item if image is a list */}}
       {{ $imgName := .Params.image }}
       {{ if ne (printf "%T" .Params.image) "string" }}{{ $imgName = index .Params.image 0 }}{{ end }}
       {{ $img := .Resources.GetMatch $imgName }}
@@ -23,23 +23,9 @@
       </div>
     </article>
     {{ end }}
+    {{ end }}
   </div>
 
-  {{ if gt .Paginator.TotalPages 1 }}
-  <nav class="pagination" aria-label="Seitennavigation">
-    {{ if .Paginator.HasPrev }}
-      <a href="{{ .Paginator.Prev.URL }}" class="pagination-link">← Neuere</a>
-    {{ end }}
-    <span class="pagination-info">
-      Seite {{ .Paginator.PageNumber }} von {{ .Paginator.TotalPages }}
-    </span>
-    {{ if .Paginator.HasNext }}
-      <a href="{{ .Paginator.Next.URL }}" class="pagination-link">Ältere →</a>
-    {{ end }}
-  </nav>
-  {{ end }}
-
-
- </div>
+  </div>
 </section>
 {{ end }}
