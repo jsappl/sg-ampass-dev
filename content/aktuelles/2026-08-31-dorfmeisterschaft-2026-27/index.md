@@ -10,7 +10,7 @@ image:
 
 <!-- ltex: language=de-AT -->
 
-Die neue Saison steht vor der Tür: Ab **Freitag, 18. September 2026** startet die Dorfmeisterschaft im Luftgewehrschießen. Geschossen wird **jeden Freitag** im Schützenheim.
+Die neue Saison steht vor der Tür: Ab **Freitag, 18. September 2026** startet die Dorfmeisterschaft im Luftgewehrschießen. Geschossen wird **jeden Freitag** im Schützenlokal.
 
 **Beginnzeiten**  
 🕕 Kinder ab 18:00 Uhr  
