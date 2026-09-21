@@ -78,7 +78,7 @@
 }
 
 .partner-info span {
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
     color: var(--muted-text);
 }
 
@@ -136,7 +136,7 @@
     text-align: center;
     color: var(--muted-text);
     margin-bottom: 40px;
-    font-size: 1.05rem;
+    font-size: var(--fs-base);
 }
 
 .termin-liste-full {
@@ -147,8 +147,8 @@
 
 /* Type badge */
 .termin-type-badge {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.72rem;
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -177,7 +177,7 @@
     color: var(--muted-text);
     cursor: pointer;
     padding: 5px 8px;
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
     transition: color 0.2s, border-color 0.2s;
     line-height: 1;
 }
@@ -197,7 +197,7 @@
     flex-wrap: wrap;
     margin-top: 6px;
     color: var(--muted-text);
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
 }
 
 .meta-info i { margin-right: 4px; }
@@ -244,10 +244,10 @@
 
 .post-hero .post-date {
     color: rgba(255,255,255,0.6);
-    font-size: 0.78rem;
+    font-size: var(--fs-xs);
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-display);
     font-weight: 600;
 }
 
@@ -267,12 +267,12 @@
 
 .post-date {
     color: var(--muted-text);
-    font-size: 0.875rem;
+    font-size: var(--fs-sm);
 }
 
 .post-content {
-    line-height: 1.8;
-    font-size: 1.05rem;
+    line-height: var(--lh-prose);
+    font-size: var(--fs-md);
 }
 
 .post-content img {
@@ -393,7 +393,7 @@
     left: 50%;
     transform: translateX(-50%);
     color: rgba(255, 255, 255, 0.65);
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
     white-space: nowrap;
     pointer-events: none;
 }
@@ -403,7 +403,7 @@
     width: 100%;
     border-collapse: collapse;
     margin: 1.5em 0;
-    font-size: 0.95rem;
+    font-size: var(--fs-sm);
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 2px;
@@ -441,7 +441,7 @@
 .post-content tbody tr:nth-child(3) td:first-child { color: #a0522d; font-weight: 700; }
 
 @media (max-width: 600px) {
-    .post-content table { font-size: 0.875rem; }
+    .post-content table { font-size: var(--fs-sm); }
     .post-content th,
     .post-content td { padding: 7px 10px; }
 }
@@ -501,7 +501,7 @@
 }
 
 .ausschuss-initials {
-    font-size: 2rem;
+    font-size: var(--fs-2xl);
     font-weight: 700;
     color: var(--primary);
     letter-spacing: 0.05em;
@@ -517,12 +517,12 @@
 }
 
 .ausschuss-name {
-    font-size: 1rem;
+    font-size: var(--fs-base);
     color: var(--text-color);
 }
 
 .ausschuss-role {
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
     color: var(--muted-text);
 }
 
@@ -530,7 +530,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     color: var(--muted-text);
     text-decoration: none;
     margin-top: 4px;
@@ -565,7 +565,7 @@
 .kontakt-block:last-child { margin-bottom: 0; }
 
 .kontakt-block h2 {
-    font-size: 1.1rem;
+    font-size: var(--fs-md);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--primary);
@@ -628,7 +628,7 @@
     display: block;
     text-align: right;
     padding: 6px 12px;
-    font-size: 0.8rem;
+    font-size: var(--fs-sm);
     color: var(--muted-text);
     background-color: var(--card-bg);
     text-decoration: none;
@@ -657,7 +657,7 @@
    ========================================= */
 .footer-legal {
     margin-top: 8px;
-    font-size: 0.85rem;
+    font-size: var(--fs-sm);
 }
 
 .footer-legal a {
@@ -670,7 +670,7 @@
 
 /* Prose layout for Impressum / Datenschutz */
 .single-post h2 {
-    font-size: 1.2rem;
+    font-size: var(--fs-lg);
     margin-top: 2em;
     padding-bottom: 6px;
     border-bottom: 1px solid var(--border-color);
@@ -696,9 +696,9 @@
     padding: 20px 0;
     color: var(--text-color);
     text-decoration: none;
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: var(--fs-base);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition: color 0.2s;

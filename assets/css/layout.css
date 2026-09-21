@@ -2,7 +2,7 @@
    2a. DISPLAY TYPOGRAPHY
    ========================================= */
 h1, h2, h3, h4 {
-    font-family: 'Barlow Condensed', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-display);
     letter-spacing: 0.03em;
 }
 
@@ -60,9 +60,9 @@ h1, h2, h3, h4 {
 .nav-links a {
     text-decoration: none;
     color: var(--text-color);
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs-sm);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: color 0.2s;
@@ -219,7 +219,7 @@ input#nav-toggle.nav-toggle {
         transform: translateX(100%);
         transition: transform 0.4s ease-in-out;
         gap: 10px;
-        font-size: 1.1rem;
+        font-size: var(--fs-md);
     }
 
     .nav-toggle:checked ~ .nav-links { transform: translateX(0); }

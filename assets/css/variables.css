@@ -17,6 +17,30 @@
 */
 
 :root {
+    /* ── Typography ──
+       Two families, one job each: Barlow Condensed for display and UI
+       chrome (headings, nav, buttons, dates), Source Serif 4 for prose.
+       The fallbacks are metric-ish so the swap is not jarring.
+
+       Sizes are one scale instead of the ad-hoc rem values they replace.
+       Only the two largest are fluid — below ~1.3rem, scaling with the
+       viewport hurts more than it helps. */
+    --font-display: 'Barlow Condensed', 'Arial Narrow', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body:    'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+    --fs-xs:   0.75rem;
+    --fs-sm:   0.875rem;
+    --fs-base: 1rem;
+    --fs-md:   1.125rem;
+    --fs-lg:   clamp(1.25rem, 1.1rem + 0.7vw, 1.4rem);
+    --fs-xl:   clamp(1.45rem, 1.15rem + 1.5vw, 1.75rem);
+    --fs-2xl:  2rem;
+
+    /* Prose wants air; cards are 2-3 lines and want none. */
+    --lh-prose: 1.7;
+    --lh-body:  1.6;
+    --lh-tight: 1.35;
+
     /* Tells the browser to render scrollbars, form controls and the like
        in the matching shade — set per theme, not from the OS setting. */
     color-scheme: light;
@@ -73,15 +97,19 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-body);
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    line-height: 1.6;
+    line-height: var(--lh-body);
     transition: background-color 0.3s, color 0.3s;
 }
+
+/* Only 400 and 600 of the serif are loaded, so ask for 600 explicitly
+   rather than letting the browser resolve a 700 it does not have. */
+strong, b { font-weight: 600; }
 
 main { flex: 1; }
 
