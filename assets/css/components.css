@@ -74,6 +74,30 @@
     overflow: hidden;
 }
 
+/* Whole card clickable: the title link is stretched over the card with a
+   pseudo-element, so the a11y tree still sees exactly one link and the
+   tap target is the full card rather than one line of text. */
+.news-card { position: relative; }
+
+.news-content h3 a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+/* Keyboard focus lands on the title link, whose visible box is now just
+   the text — show the ring on the card so it matches the click target.
+   :focus-visible, not :focus-within, or a mouse click would draw it too. */
+.news-card:has(.news-content h3 a:focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Only drop the link's own ring where the card can actually show one. */
+@supports selector(:has(*)) {
+    .news-content h3 a:focus-visible { outline: none; }
+}
+
 .news-card:hover, .termin-mini-card:hover {
     border-color: var(--primary);
     box-shadow: 0 6px 28px rgba(0,0,0,0.18);
@@ -332,7 +356,8 @@ footer {
     transition: color 0.2s, letter-spacing 0.2s;
 }
 
-.read-more:hover {
+.read-more:hover,
+.news-card:hover .read-more {
     color: var(--accent);
     letter-spacing: 0.1em;
 }

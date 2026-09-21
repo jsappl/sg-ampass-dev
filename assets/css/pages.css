@@ -210,7 +210,11 @@
 /* Full-bleed post hero */
 .post-hero {
     min-height: 52vh;
-    background: #111;
+    background-color: #111;
+    /* --hero-lg / --hero-sm are set inline per post; the scrim lives here
+       rather than in the template. Declared after background-color, which
+       as a shorthand would otherwise reset it. */
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.78) 100%), var(--hero-lg);
     background-size: cover;
     background-position: center top;
     display: flex;
@@ -218,12 +222,20 @@
     border-bottom: 3px solid var(--primary);
 }
 
-.post-hero--text-only {
-    min-height: 28vh;
-    background: var(--text-color);
+/* A phone does not need the 1400px crop. */
+@media (max-width: 700px) {
+    .post-hero {
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.78) 100%), var(--hero-sm);
+    }
 }
 
-[data-theme="dark"] .post-hero--text-only { background: #2a2521; }
+.post-hero--text-only {
+    min-height: 28vh;
+    background-color: var(--text-color);
+    background-image: none;
+}
+
+[data-theme="dark"] .post-hero--text-only { background-color: #2a2521; }
 
 .post-hero-inner {
     padding-top: 80px;
@@ -243,8 +255,10 @@
 }
 
 .post-hero .post-date {
-    color: rgba(255,255,255,0.6);
-    font-size: var(--fs-xs);
+    color: rgba(255,255,255,0.72);
+    /* Barlow Condensed reads optically smaller than its size, and the
+       headline next to it runs up to 4.8rem — xs was lost under it. */
+    font-size: var(--fs-base);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     font-family: var(--font-display);
@@ -292,18 +306,18 @@
 
 
 
-/* Post gallery */
+/* Post gallery — CSS masonry columns, so portrait and landscape shots
+   sit side by side at their own aspect ratio instead of being cropped
+   into a uniform box. Reading order runs down each column. */
 .post-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
+    columns: 280px 3;
+    column-gap: 12px;
     margin: 40px 0;
 }
 
 .gallery-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     border-radius: 2px;
     display: block;
     transition: opacity 0.2s;
@@ -311,13 +325,16 @@
 
 .gallery-item {
     display: block;
+    width: 100%;
     padding: 0;
     border: none;
     background: none;
     cursor: zoom-in;
     border-radius: 2px;
     overflow: hidden;
-    aspect-ratio: 4 / 3;
+    /* Keep a tile from being split across two columns. */
+    break-inside: avoid;
+    margin-bottom: 12px;
 }
 
 .gallery-item:hover .gallery-img { opacity: 0.85; }
@@ -681,6 +698,80 @@
    AKTUELLES PAGE
    ========================================= */
 .aktuelles-page { padding: 40px 0 80px; }
+
+/* Post nav — reuses the card surface and the red accent from
+   .partner-card, since both are links out of the page. Older sits left,
+   newer right, so the pair reads as a timeline. */
+.post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 56px auto 0;
+    max-width: 760px;
+}
+
+@media (max-width: 620px) {
+    .post-nav { grid-template-columns: 1fr; }
+}
+
+/* On the oldest post only the "newer" link exists; keep it on the right
+   so the direction stays consistent. */
+.post-nav-newer:only-child { grid-column: 2; }
+
+@media (max-width: 620px) {
+    .post-nav-newer:only-child { grid-column: 1; }
+}
+
+.post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 2px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+/* The accent sits on the edge each link points toward, and only that
+   edge reacts on hover — a blanket border-color rule lit up the thin
+   1px sides too. */
+.post-nav-older { border-left: 4px solid var(--primary); }
+.post-nav-older:hover {
+    border-left-color: var(--accent);
+    transform: translateX(-4px);
+}
+
+.post-nav-newer {
+    border-right: 4px solid var(--primary);
+    text-align: right;
+}
+
+.post-nav-newer:hover {
+    border-right-color: var(--accent);
+    transform: translateX(4px);
+}
+
+.post-nav-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-display);
+    font-size: var(--fs-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted-text);
+}
+
+.post-nav-newer .post-nav-label { justify-content: flex-end; }
+
+.post-nav-title {
+    font-size: var(--fs-sm);
+    line-height: var(--lh-tight);
+}
 
 /* Post back bar */
 .post-back-bar {

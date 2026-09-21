@@ -14,7 +14,7 @@
 
 {{/* Full-bleed post hero */}}
 <div class="post-hero{{ if not $heroImg }} post-hero--text-only{{ end }}"
-  {{- if $heroImg }} style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.78) 100%), url('{{ ($heroImg.Fill "1400x700 webp Smart").RelPermalink }}');"{{ end }}>
+  {{- if $heroImg }} style="--hero-lg: url('{{ ($heroImg.Fill "1400x700 webp Smart").RelPermalink }}'); --hero-sm: url('{{ ($heroImg.Fill "700x420 webp Smart").RelPermalink }}');"{{ end }}>
   <div class="container post-hero-inner">
     <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
     <h1>{{ .Title }}</h1>
@@ -28,8 +28,12 @@
 
   {{/* Gallery — 'image' as a list, or legacy 'images' key */}}
   {{ $galleryImages := slice }}
-  {{ if and .Params.image (ne (printf "%T" .Params.image) "string") }}
-    {{ $galleryImages = .Params.image }}
+  {{ if .Params.image }}
+    {{ if eq (printf "%T" .Params.image) "string" }}
+      {{ $galleryImages = slice .Params.image }}
+    {{ else }}
+      {{ $galleryImages = .Params.image }}
+    {{ end }}
   {{ else if .Params.images }}
     {{ $galleryImages = .Params.images }}
   {{ end }}
@@ -38,18 +42,29 @@
     {{ range $i, $name := $galleryImages }}
       {{ $gimg := $.Resources.GetMatch $name }}
       {{ if $gimg }}
+      {{/* Fit, not Fill: portrait shots keep their shape instead of being
+           cropped to a landscape box. The masonry columns absorb the
+           varying heights. */}}
+      {{ $thumb := $gimg.Fit "700x900 webp" }}
+      {{ $thumbSm := $gimg.Fit "400x520 webp" }}
+      {{/* The originals run to 2.5MB; the lightbox never needs more than
+           this, and a post can hold seventeen of them. */}}
+      {{ $full := $gimg.Fit "1800x1800 webp" }}
       <button
         class="gallery-item"
-        data-src="{{ $gimg.RelPermalink }}"
+        data-src="{{ $full.RelPermalink }}"
         aria-label="Bild {{ add $i 1 }} vergrößern"
       >
         <img
-          src="{{ ($gimg.Fill "600x400 webp").RelPermalink }}"
+          src="{{ $thumb.RelPermalink }}"
+          srcset="{{ $thumbSm.RelPermalink }} {{ $thumbSm.Width }}w, {{ $thumb.RelPermalink }} {{ $thumb.Width }}w"
+          sizes="(max-width: 620px) 100vw, 374px"
           alt="{{ $.Title }}"
           class="gallery-img"
-          width="600"
-          height="400"
+          width="{{ $thumb.Width }}"
+          height="{{ $thumb.Height }}"
           loading="lazy"
+          decoding="async"
         />
       </button>
       {{ end }}
@@ -129,6 +144,25 @@
   {{ end }}
 
 </article>
+
+{{/* Prev/next within the section — newest first, so NextInSection is the
+     newer post. Labelled by title so the destination is visible. */}}
+{{ with or .NextInSection .PrevInSection }}
+<nav class="post-nav container" aria-label="Weitere Beiträge">
+  {{ with $.PrevInSection }}
+  <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-older" rel="prev">
+    <span class="post-nav-label">{{ partial "icon.html" "arrow-left" }} Älterer Beitrag</span>
+    <span class="post-nav-title">{{ .Title }}</span>
+  </a>
+  {{ end }}
+  {{ with $.NextInSection }}
+  <a href="{{ .RelPermalink }}" class="post-nav-link post-nav-newer" rel="next">
+    <span class="post-nav-label">Neuerer Beitrag →</span>
+    <span class="post-nav-title">{{ .Title }}</span>
+  </a>
+  {{ end }}
+</nav>
+{{ end }}
 
 <div class="post-back-bar">
   <div class="container">

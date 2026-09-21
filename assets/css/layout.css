@@ -101,7 +101,10 @@ h1, h2, h3, h4 {
    4. HERO & SECTIONS
    ========================================= */
 .hero-section {
+    /* dvh so the collapsing mobile URL bar does not shift the hero;
+       vh first for browsers without dvh. */
     height: 62vh;
+    height: 62dvh;
     background-color: #1a1a1a;
     background-size: cover;
     background-position: center;
@@ -115,10 +118,32 @@ h1, h2, h3, h4 {
     overflow: hidden;
 }
 
+/*
+  Scrim for the banner photo. The old version was a flat 55% black over
+  the whole image, which protected text that only ever sits in the middle
+  and flattened the picture everywhere else. This darkens the centre band
+  slightly more than before (60%) and lets the edges breathe, so contrast
+  where the headline actually is does not drop.
+*/
+.hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.28) 0%,
+        rgba(0,0,0,0.60) 45%,
+        rgba(0,0,0,0.60) 60%,
+        rgba(0,0,0,0.38) 100%
+    );
+    pointer-events: none;
+}
+
 .hero-target {
     position: absolute;
-    width: clamp(340px, 62vh, 620px);
-    height: clamp(340px, 62vh, 620px);
+    z-index: 1;
+    width: clamp(340px, 62dvh, 620px);
+    height: clamp(340px, 62dvh, 620px);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -128,6 +153,12 @@ h1, h2, h3, h4 {
 
 @media (max-width: 480px) {
     .hero-target { opacity: 0.08; }
+}
+
+/* The scrim is positioned, so in-flow content would paint under it. */
+.hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-section h1 {

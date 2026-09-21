@@ -19,7 +19,7 @@
         <small class="post-date">{{ .Date.Format "02.01.2006" }}</small>
         <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
         <p>{{ .Summary | plainify | truncate 150 }}</p>
-        <a href="{{ .RelPermalink }}" class="read-more">Weiterlesen →</a>
+        <span class="read-more" aria-hidden="true">Weiterlesen →</span>
       </div>
     </article>
     {{ end }}
