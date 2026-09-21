@@ -17,6 +17,10 @@
 */
 
 :root {
+    /* Tells the browser to render scrollbars, form controls and the like
+       in the matching shade — set per theme, not from the OS setting. */
+    color-scheme: light;
+
     /* ── Light Mode (Standard) ── */
     --bg-color:        #edeae2;             /* Warmes Steingrau — alpines Papier */
     --text-color:      #141210;
@@ -37,6 +41,8 @@
 }
 
 [data-theme="dark"] {
+    color-scheme: dark;
+
     /* ── Dark Mode — warm dark stone, mirrors light mode palette ── */
     --bg-color:        #1a1714;             /* Dark warm stone — not black */
     --text-color:      #ede8e0;             /* Warm off-white */
