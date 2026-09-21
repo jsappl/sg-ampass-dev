@@ -244,7 +244,10 @@
 }
 
 .post-hero h1 {
-    font-size: clamp(2.2rem, 7vw, 4.8rem);
+    /* Titles run to ~41 uppercase characters, so 4.8rem wrapped to three
+       lines and swallowed the photo. Unlike the homepage hero, this one
+       carries a sentence, not a three-word club name. */
+    font-size: clamp(2rem, 5.5vw, 3.6rem);
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.05em;
