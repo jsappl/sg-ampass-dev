@@ -23,12 +23,12 @@
           <span class="ausschuss-role">{{ .role }}</span>
           {{ with .email }}
             <a href="mailto:{{ . }}" class="ausschuss-contact">
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ . }}
+              {{ partial "icon.html" "envelope" }} {{ . }}
             </a>
           {{ end }}
           {{ with .phone }}
             <a href="tel:{{ . | replaceRE `\s` `` }}" class="ausschuss-contact">
-              <i class="fa-solid fa-phone" aria-hidden="true"></i> {{ . }}
+              {{ partial "icon.html" "phone" }} {{ . }}
             </a>
           {{ end }}
         </div>

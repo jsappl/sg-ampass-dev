@@ -52,29 +52,27 @@
     {{ if $logo     }}<link rel="preload" as="image" href="{{ $logo.RelPermalink }}"     />{{ end }}
     {{ if $logoDark }}<link rel="preload" as="image" href="{{ $logoDark.RelPermalink }}" />{{ end }}
 
-    <!-- ===================== Fonts & Icons ===================== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      crossorigin="anonymous"
-    />
+    <!-- ===================== Fonts ===================== -->
+    <!--
+      Self-hosted from static/fonts/ — no Google Fonts or CDN request, so no
+      visitor IP leaves the server (DSGVO). Icons are inline SVG via
+      partials/icon.html, so Font Awesome is gone entirely.
+      Only the latin subsets are preloaded; latin-ext loads on demand.
+    -->
+    <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/barlow-condensed-600-latin.woff2" | absURL }}" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="{{ "fonts/barlow-condensed-700-latin.woff2" | absURL }}" crossorigin />
 
     <!-- ===================== Styles ===================== -->
     <!--
       Hugo asset pipeline: concat → minify → fingerprint → integrity hash.
       Split source files in assets/css/ — single output for the browser.
     -->
+    {{- $fonts      := resources.Get "css/fonts.css"      -}}
     {{- $variables  := resources.Get "css/variables.css"  -}}
     {{- $layout     := resources.Get "css/layout.css"     -}}
     {{- $components := resources.Get "css/components.css" -}}
     {{- $pages      := resources.Get "css/pages.css"      -}}
-    {{- $all := slice $variables $layout $components $pages | resources.Concat "css/style.css" | minify | fingerprint -}}
+    {{- $all := slice $fonts $variables $layout $components $pages | resources.Concat "css/style.css" | minify | fingerprint -}}
     <link
       rel="stylesheet"
       href="{{ $all.RelPermalink }}"
@@ -140,7 +138,7 @@
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+              {{ partial "icon.html" "instagram" }}
             </a>
           </li>
 
@@ -152,8 +150,8 @@
               aria-label="Switch color theme"
               title="Switch color theme"
             >
-              <i class="fa-solid fa-moon moon-icon" aria-hidden="true"></i>
-              <i class="fa-solid fa-sun  sun-icon"  aria-hidden="true"></i>
+              {{ partial "icon.html" (dict "name" "moon" "class" "moon-icon") }}
+              {{ partial "icon.html" (dict "name" "sun" "class" "sun-icon") }}
             </button>
           </li>
         </ul>
@@ -174,12 +172,12 @@
           <div class="footer-links">
             {{ with .Site.Params.email }}
             <a href="mailto:{{ . }}" class="footer-link">
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i> {{ . }}
+              {{ partial "icon.html" "envelope" }} {{ . }}
             </a>
             {{ end }}
             {{ with .Site.Params.instagramURL }}
             <a href="{{ . }}" class="footer-link" target="_blank" rel="noopener noreferrer">
-              <i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram
+              {{ partial "icon.html" "instagram" }} Instagram
             </a>
             {{ end }}
           </div>

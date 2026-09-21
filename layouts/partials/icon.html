@@ -1,0 +1,26 @@
+{{- /*
+  Inline SVG icon — replaces the Font Awesome webfont (no third-party CDN).
+
+  Usage: {{ partial "icon.html" "envelope" }}
+         {{ partial "icon.html" (dict "name" "arrow-up-right-from-square" "class" "partner-ext") }}
+
+  Sources assets/icons/<name>.svg, strips the FA licence comment and the
+  original <svg ...> wrapper attributes, and re-emits it with class="icon"
+  so CSS controls size (1em) and colour (currentColor).
+  Icons: Font Awesome Free 6.5.1, CC BY 4.0.
+*/ -}}
+{{- $name := . -}}
+{{- $extra := "" -}}
+{{- if reflect.IsMap . -}}
+  {{- $name = .name -}}
+  {{- $extra = printf " %s" (.class | default "") -}}
+{{- end -}}
+{{- with resources.Get (printf "icons/%s.svg" $name) -}}
+  {{- $svg := .Content -}}
+  {{- $viewBox := replaceRE `(?s)^.*?<svg[^>]*viewBox="([^"]*)".*$` "$1" $svg -}}
+  {{- $inner := replaceRE `(?s)^.*?<svg[^>]*>(.*)</svg>\s*$` "$1" $svg -}}
+  {{- $inner = replaceRE `(?s)<!--.*?-->` "" $inner -}}
+  <svg class="icon{{ $extra }}" viewBox="{{ $viewBox }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">{{ $inner | safeHTML }}</svg>
+{{- else -}}
+  {{- errorf "icon partial: assets/icons/%s.svg not found" $name -}}
+{{- end -}}

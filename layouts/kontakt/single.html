@@ -19,17 +19,17 @@ drive both the iframe and the directions link.
           <address>
             {{ with .Site.Params.address }}
             <p>
-              <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+              {{ partial "icon.html" "location-dot" }}
               {{ . }}
             </p>
             {{ end }} {{ with .Site.Params.email }}
             <p>
-              <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+              {{ partial "icon.html" "envelope" }}
               <a href="mailto:{{ . }}">{{ . }}</a>
             </p>
             {{ end }} {{ with .Site.Params.instagramURL }}
             <p>
-              <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+              {{ partial "icon.html" "instagram" }}
               <a href="{{ . }}" target="_blank" rel="noopener noreferrer">
                 @schuetzengilde_ampass
               </a>
@@ -52,7 +52,7 @@ drive both the iframe and the directions link.
             rel="noopener noreferrer"
             class="btn btn-primary kontakt-directions-btn"
           >
-            <i class="fa-solid fa-route" aria-hidden="true"></i>
+            {{ partial "icon.html" "route" }}
             Route berechnen
           </a>
         </div>

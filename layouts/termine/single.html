@@ -24,11 +24,11 @@
             <h3>{{ .titel }}</h3>
             <div class="meta-info">
               <span>
-                <i class="fa-solid fa-clock" aria-hidden="true"></i>
+                {{ partial "icon.html" "clock" }}
                 {{ dateFormat "15:04" .datetime }} Uhr
               </span>
               <span>
-                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                {{ partial "icon.html" "location-dot" }}
                 {{ .ort }}
               </span>
             </div>
@@ -43,7 +43,7 @@
               data-ort="{{ .ort }}"
               data-typ="{{ .typ }}"
             >
-              <i class="fa-solid fa-calendar-plus" aria-hidden="true"></i>
+              {{ partial "icon.html" "calendar-plus" }}
             </button>
           </div>
         </div>

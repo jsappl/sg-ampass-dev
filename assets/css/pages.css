@@ -62,10 +62,11 @@
     transform: translateX(4px);
 }
 
-.partner-card > .fa-solid:first-child {
+.partner-card > .icon:first-child {
+    /* Inline SVG: sized in em so it tracks font-size; box kept at 24px wide */
     font-size: 1.3rem;
     width: 24px;
-    text-align: center;
+    height: 1em;
     flex-shrink: 0;
 }
 

@@ -74,7 +74,7 @@
           </div>
           <div class="mini-info">
             <h4>{{ .titel }}</h4>
-            <p><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{ .ort }}</p>
+            <p>{{ partial "icon.html" "location-dot" }} {{ .ort }}</p>
             <span class="time">{{ dateFormat "15:04" .datetime }} Uhr</span>
           </div>
         </div>
@@ -96,12 +96,12 @@
     <div class="partner-grid">
       {{ range .Site.Data.partner }}
       <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="partner-card">
-        <i class="{{ .icon }}" aria-hidden="true"></i>
+        {{ partial "icon.html" .icon }}
         <div class="partner-info">
           <strong>{{ .name }}</strong>
           <span>{{ .description }}</span>
         </div>
-        <i class="fa-solid fa-arrow-up-right-from-square partner-ext" aria-hidden="true"></i>
+        {{ partial "icon.html" (dict "name" "arrow-up-right-from-square" "class" "partner-ext") }}
       </a>
       {{ end }}
     </div>
