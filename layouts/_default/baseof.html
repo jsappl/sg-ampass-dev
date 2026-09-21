@@ -122,14 +122,25 @@
           {{ end }}
         </a>
 
-        <!-- Mobile hamburger (CSS-only toggle, no JS required) -->
-        <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" />
-        <label for="nav-toggle" class="nav-toggle-label" aria-label="Menu öffnen/schließen">
+        <!--
+          Mobile hamburger. A real button, not a label+checkbox: the
+          checkbox was display:none, so nothing was focusable and there
+          was no keyboard path into the menu at all. aria-expanded gives
+          the open/closed state a screen reader can announce.
+        -->
+        <button
+          type="button"
+          id="nav-toggle"
+          class="nav-toggle-label"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          aria-label="Menü öffnen"
+        >
           <span></span>
-        </label>
+        </button>
 
         <!-- Nav links — sourced from [[menu.main]] in hugo.toml -->
-        <ul class="nav-links" role="list">
+        <ul class="nav-links" role="list" id="nav-links">
           {{ $currentPage := . }}
           {{ range .Site.Menus.main }}
           <li>
@@ -204,6 +215,32 @@
         </div>
       </div>
     </footer>
+
+    <!-- ===================== Mobile Nav Script ===================== -->
+    <script>
+      (function () {
+        var btn = document.getElementById("nav-toggle");
+        var nav = document.getElementById("nav-links");
+        if (!btn || !nav) return;
+
+        function setOpen(open) {
+          btn.setAttribute("aria-expanded", String(open));
+          btn.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+          nav.classList.toggle("is-open", open);
+        }
+
+        btn.addEventListener("click", function () {
+          setOpen(btn.getAttribute("aria-expanded") !== "true");
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") {
+            setOpen(false);
+            btn.focus();
+          }
+        });
+      })();
+    </script>
 
     <!-- ===================== Theme Toggle Script ===================== -->
     <script>
