@@ -3,6 +3,13 @@ name: Deploy Hugo
 on:
   push:
     branches: [main, release]
+  # Nightly rebuild so past Termine drop off (filter runs at build time)
+  schedule:
+    - cron: "15 23 * * *"
+
+# Hugo's `now` uses the system clock; runners are UTC
+env:
+  TZ: Europe/Vienna
 
 jobs:
   # ── Dev: main → GitHub Pages ──────────────────────────────────────
@@ -39,10 +46,12 @@ jobs:
 
   # ── Prod: release → all-inkl.com via FTP ──────────────────────────
   deploy-prod:
-    if: github.ref == 'refs/heads/release'
+    if: github.ref == 'refs/heads/release' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: release
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
